@@ -1,14 +1,26 @@
 # Cross-Modal Head Nod Analysis Docker Environment
 FROM rocker/tidyverse:4.3.0
 
+# Install system dependencies needed for R packages
+RUN apt-get update && apt-get install -y \
+    libxml2-dev \
+    libssl-dev \
+    libcurl4-openssl-dev \
+    libgit2-dev \
+    libudunits2-dev \
+    libgdal-dev \
+    libgeos-dev \
+    libproj-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 # Set working directory
 WORKDIR /analysis
 
-# Install additional R packages (CORE ESSENTIALS ONLY)
-RUN R -e "install.packages(c('reshape2', 'rstatix', 'lme4', 'readxl', 'viridis', 'boot', 'broom', 'patchwork', 'scales'), repos='https://cran.rstudio.com/')"
-
-# Copy repository contents
+# Copy repository contents first (needed for install.R)
 COPY . /analysis/
+
+# Install packages using our dependency-aware install script
+RUN R --vanilla -e "source('install.R')"
 
 # Set proper permissions
 RUN chmod +x /analysis/*.R /analysis/scripts/*.R

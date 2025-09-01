@@ -31,40 +31,74 @@ if (length(getOption("repos")) == 1 && getOption("repos") == "@CRAN@") {
 
 cat("1. Installing required R packages...\n")
 
-# Define CORE ESSENTIAL packages (actually used in scripts)
-required_packages <- c(
-  # Core tidyverse (includes dplyr, ggplot2, readr, tidyr, etc.)
-  "tidyverse",
-  
-  # Data input/output
-  "readxl",
-  
-  # Statistical analysis (core)
-  "rstatix", "lme4", "boot", "broom",
-  
-  # Data reshaping
-  "reshape2",
-  
-  # Visualization (essential only)
-  "viridis", "patchwork", "scales"
+# Define packages in installation order (dependencies first)
+# Phase 1: Core system packages that others depend on
+core_packages <- c(
+  "Rcpp", "RcppArmadillo", "Matrix", "lattice", "nlme"
 )
 
-# Function to install packages with progress tracking
-install_packages_with_progress <- function(packages) {
-  total_packages <- length(packages)
-  installed_count <- 0
+# Phase 2: Core tidyverse and basic packages
+basic_packages <- c(
+  "boot", "reshape2", "readxl", "knitr"
+)
+
+# Phase 3: Statistical packages (need core packages first)
+stats_packages <- c(
+  "lme4", "car", "rstatix", "broom", "emmeans", "effectsize", "lmerTest"
+)
+
+# Phase 4: Visualization and tidyverse (can be heavy)
+viz_packages <- c(
+  "viridis", "scales", "gridExtra", "patchwork", "tidyverse"
+)
+
+# All packages combined for final check
+required_packages <- c(core_packages, basic_packages, stats_packages, viz_packages)
+
+# Function to install packages with progress tracking and phased approach
+install_packages_with_progress <- function() {
+  # Install in phases to handle dependencies properly
+  phases <- list(
+    "Core Dependencies" = core_packages,
+    "Basic Packages" = basic_packages, 
+    "Statistical Packages" = stats_packages,
+    "Visualization Packages" = viz_packages
+  )
+  
   failed_packages <- c()
   
-  for (i in seq_along(packages)) {
-    pkg <- packages[i]
-    cat(sprintf("  [%d/%d] Checking %s...", i, total_packages, pkg))
+  for (phase_name in names(phases)) {
+    packages <- phases[[phase_name]]
+    cat(sprintf("\n--- Phase: %s ---\n", phase_name))
     
-    if (!requireNamespace(pkg, quietly = TRUE)) {
-      cat(" installing...")
-      tryCatch({
-        install.packages(pkg, dependencies = TRUE, quiet = TRUE)
-        if (requireNamespace(pkg, quietly = TRUE)) {
-          cat(" ✅\n")
+    for (i in seq_along(packages)) {
+      pkg <- packages[i]
+      cat(sprintf("  [%d/%d] Checking %s...", i, length(packages), pkg))
+      
+      if (!requireNamespace(pkg, quietly = TRUE)) {
+        cat(" installing...")
+        tryCatch({
+          # Force install with dependencies for critical packages
+          install.packages(pkg, dependencies = TRUE, quiet = FALSE)
+          if (requireNamespace(pkg, quietly = TRUE)) {
+            cat(" ✅\n")
+          } else {
+            cat(" ❌ (failed to load after install)\n")
+            failed_packages <- c(failed_packages, pkg)
+          }
+        }, error = function(e) {
+          cat(" ❌ (installation failed)\n")
+          cat(sprintf("    Error: %s\n", e$message))
+          failed_packages <<- c(failed_packages, pkg)
+        })
+      } else {
+        cat(" ✅ (already installed)\n")
+      }
+    }
+  }
+  
+  return(failed_packages)
+}
           installed_count <- installed_count + 1
         } else {
           cat(" ❌ (installation failed)\n")
@@ -87,20 +121,22 @@ install_packages_with_progress <- function(packages) {
   ))
 }
 
-# Install packages
-package_results <- install_packages_with_progress(required_packages)
+# Install packages with phased approach
+failed_packages <- install_packages_with_progress()
 
 # Report results
 cat("\nPackage installation summary:\n")
+total_packages <- length(required_packages)
+successful_packages <- total_packages - length(failed_packages)
 cat(sprintf("  ✅ Successfully available: %d/%d packages\n", 
-           package_results$installed, package_results$total))
+           successful_packages, total_packages))
 
-if (length(package_results$failed) > 0) {
-  cat(sprintf("  ❌ Failed installations: %d packages\n", length(package_results$failed)))
-  cat("     Failed packages:", paste(package_results$failed, collapse = ", "), "\n")
+if (length(failed_packages) > 0) {
+  cat(sprintf("  ❌ Failed installations: %d packages\n", length(failed_packages)))
+  cat("     Failed packages:", paste(failed_packages, collapse = ", "), "\n")
   cat("\n🚨 SOME PACKAGES FAILED TO INSTALL!\n")
   cat("Please try installing them manually:\n")
-  cat("install.packages(c(", paste0("'", package_results$failed, "'", collapse = ", "), "))\n\n")
+  cat("install.packages(c(", paste0("'", failed_packages, "'", collapse = ", "), "))\n\n")
 } else {
   cat("  🎉 All packages installed successfully!\n\n")
 }
