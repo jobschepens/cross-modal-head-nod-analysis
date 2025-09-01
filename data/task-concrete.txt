@@ -1,0 +1,26 @@
+-	We have already found that head nods in natural dyadic German Sign Language (DGS) interaction, differ in their phonetic characteristics according to their pragmatic function. Our results have shown that phonetic properties of affirmative nods differ from those of feedback nods. Feedback nods appear to be on average slower in production and smaller in amplitude than affirmation nods, and they are commonly produced without a co-occurring manual element. We attribute the variations in phonetic properties to the distinct roles these cues fulfill in turn-taking system. 
+
+-	We examined head nods in terms of their duration, amplitude and velocity in DGS and their interaction with manual items as well as mouthings in naturalistic corpus data. 
+
+-	In the second study the focus lies on cross-modal comparison of head nods’ kinematic properties (we will not talk about phonetic properties anymore because we are looking at spoken languages also) in terms of their duration, amplitude and velocity. We will compare whether the findings we had from the first paper hold true for spoken languages and other signed language: whether feedback nods are slower in production and smaller in amplitude than affirmation nods. 
+
+
+Changes we will apply in the second paper: 
+
+-	No spot annotations: We won’t do any spot annotations this time and show with this approach the real distribution of head nods in discourse of the four languages. We will find many feedback nods, little affirmation nods. 
+
+-	Other nods: We will additionally include the other nods in the calculations and see how they differ. Other nods are head nods which fulfil other pragmatic functions than feedback or affirmative act. These can be discursive functions marking structuring and segmenting information so that it can be better understood and processed. It can be modal functions marking epistemic stance or a metacommunicative functions marking speech activities such as enumeration or self-repairs.
+
+-	Co-occurrence / spreading of head nods: As for RSL, we will explore the interaction of head nods with manual items as well as mouthings in naturalistic corpus data similar to DGS. As for spoken languages, we will investigate the co-occurrence / spreading of head nods with lexical and non-lexical elements (which has not yet been done cross-linguistically in a conversational data). 
+
+-	Turn-taking explanation: We will still attribute the variation in phonetic properties of head nods to the distinct roles these cues fulfill in the turn-taking system: feedback nods typically signal passive recipiency, while affirmation nods result in a more prominent visual signal, which is easier to detect and which displays the potential for interrupting the conversational flow. Our findings suggest that the immediate pragmatic function of a head nod influences the physical form of this non-manual gesture suggesting a shared cognitive mechanism underpinning their use in interaction. The functional differentiation of head nod forms appears to enhance communicative efficiency, supporting the smooth exchange of information in interaction. In other word it could be evidence that the nodding interactant has a prior plan at the onset of a head nod regarding its speed and the amplitude to produce.
+
+
+What needs to be done:	Who is responsible	Deadline
+1.	Distribution of head nod forms (small nods, large nods, numerous nods – sn, hnn, mn, ln, lnn) per language and total in all four languages. (Here the number of head nods varies per languages, the length of interaction varies per languages also – the data points should be made comparable)
+	Job	1 April 2025 15 August 2025
+2.	Distribution of head nod functions (affirmation, feedback, other) per language and total in all four languages. (Here the number of head nods varies per languages, the length of interaction varies per languages also – the data points should be made comparable)	Job	1 April 2025 15 August 2025
+3.	The distributions of the three variables for all three functions (affirmation, feedback and other) for each language and/or all four languages. 	Job	1 April 2025 15 August 2025
+4.	Another plot including the turn-taking: compare here please the three variable of the head nods which are passive receipiency (PR) with head nods initiating a turn and head nods in the mid-turn for all four languages. 	Job	1 April 2025 15 August 2025
+5.	A statistical test showing whether the difference in amplitude, velocity and duration are statistically significant (between three functions either for all 4 languages and all together)
+	Job	1 April 2025 15 August 2025

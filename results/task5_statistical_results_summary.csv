@@ -1,0 +1,4 @@
+variable,anova_f,anova_p,kw_chi2,kw_p,eta_squared,anova_sig,kw_sig,effect_size_interpretation
+length (seconds),NA,NA,653.5856540088878,1.1903604979622198e-142,NA,,***,unknown
+extremes amplitude,NA,NA,37.17080284016521,8.481305741186745e-9,NA,,***,unknown
+velocity,NA,NA,167.63933889447344,3.958950613441768e-37,NA,,***,unknown

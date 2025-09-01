@@ -1,0 +1,75 @@
+The relevant folder is called “output_2025-07-28” – in there we have csvs for all 4 languages (DGS, German, RSL and Russian)
+
+For each language there are 4 csvs, with the data exported from each on the following tiers: form, function, turn, functionturn.
+
+ 
+Below descirptions of each tiers (more info in the PLOS paper, methodology was the same: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0304040):
+
+ 
+Form – where the nodding is and what is its form: hn – sinlgle smll nod, hnn – multiple small nod, ln – single large nod, lnn – multiple large nod, mn – mixed nod
+
+ 
+Function – what is the function of a given nod in a context, we have 3 values: feedback, affirmation, other (definitions same as in the PLOS paper) 
+
+ 
+Turn – what is the position of the nod in the turn management: passive recipiency (PR), turn taking (TT) or mid-turn
+
+ 
+Functionturn – values merged from the tiers “function” and “turn” into single values. In the PLOS paper we used this info to produce the section “Turn-taking behavior” and Fig 14. Turn-taking behavior and function of the nods
+
+Also, the overview of annotated files is updated in the excel and csv file “overview of files for Job”. The file mentions all of the ELAN files used per each language and lists their details as well as number of identified nods.
+
+Note that the spreadsheet has two bookmarks - as want to escape the comments made by previous reviewers that our numbers do not reflect actual frequency of nods in conversations (due to spot annotations), we have split the data sample into two subsamples. One of those should be used to calculate the frequency / distribution of nods (without the spot annotations), the second one (with spot annotations) can be used to calculate the phonetic properties. 
+
+ 
+---------------------------------
+
+ 
+Additionally, for RSL and RUS here is a disclaimer from Marc which might be relevant:
+
+Beware that my script had to skip a few labels because their time frame was missing the required pose keypoints (likely due to recognition errors). That means some numbers might not fit 100%  See the log below.
+
+Best, Marc
+
+
+Computing headnod stats for GDK_TS_CN_010923 b1
+Process function labels for perspective b1 of transcript GDK_TS_CN_010923.eaf
+WARNING:root:No pose data for frames 79678–79688 (label=other)
+WARNING:root:No pose data for frames 79977–80113 (label=feedback)
+WARNING:root:No pose data for frames 80129–80277 (label=feedback)
+
+Computing headnod stats for RSLC-s1-s2-180423 a1
+WARNING:root:No pose data for frames 79678–79688 (label=sn)
+WARNING:root:No pose data for frames 79977–80113 (label=snn)
+WARNING:root:No pose data for frames 80129–80277 (label=snn)
+WARNING:root:No pose data for frames 79678–79688 (label=mid-turn)
+WARNING:root:No pose data for frames 79977–80113 (label=PR)
+WARNING:root:No pose data for frames 80129–80277 (label=PR)
+WARNING:root:No pose data for frames 79678–79688 (label=other)
+WARNING:root:No pose data for frames 79977–80113 (label=feedb PR)
+WARNING:root:No pose data for frames 80129–80277 (label=feedb PR)
+
+Computing headnod stats for RCC_s1_s11_010923 b1
+Process function labels for perspective b1 of transcript RCC_s1_s11_010923.eaf
+WARNING:root:No pose data for frames 84653–84670 (label=other)
+WARNING:root:No pose data for frames 84696–84708 (label=other)
+WARNING:root:No pose data for frames 85118–85143 (label=other)
+WARNING:root:No pose data for frames 86585–86593 (label=other)
+
+Process form labels for perspective b1 of transcript RCC_s1_s11_010923.eaf
+WARNING:root:No pose data for frames 84653–84670 (label=ln)
+WARNING:root:No pose data for frames 84696–84708 (label=sn)
+WARNING:root:No pose data for frames 85118–85143 (label=snn)
+WARNING:root:No pose data for frames 86585–86593 (label=sn)
+
+Process turn labels for perspective b1 of transcript RCC_s1_s11_010923.eaf
+WARNING:root:No pose data for frames 84653–84670 (label=mid-turn)
+WARNING:root:No pose data for frames 84696–84708 (label=mid-turn)
+WARNING:root:No pose data for frames 85118–85143 (label=mid-turn)
+WARNING:root:No pose data for frames 86585–86593 (label=mid-turn)
+
+Process functionturn labels for perspective b1 of transcript RCC_s1_s11_010923.eaf
+WARNING:root:No pose data for frames 84653–84670 (label=other)
+WARNING:root:No pose data for frames 84696–84708 (label=other)
+WARNING:root:No pose data for frames 85118–85143 (label=other)
+WARNING:root:No pose data for frames 86585–86593 (label=other)

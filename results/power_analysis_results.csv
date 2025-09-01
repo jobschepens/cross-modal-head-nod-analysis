@@ -1,0 +1,10 @@
+variable,comparison,effect_size,ci_lower,ci_upper,interpretation,group1,group2,n1,n2,observed_power,power_adequate
+Velocity,affirmation vs feedback,0.41966329075946296,0,0,small,affirmation,feedback,205,3205,0.9999441464892138,TRUE
+Velocity,affirmation vs other,0.06516678468033144,0,0,negligible,affirmation,other,205,2782,0.14673643314964546,FALSE
+Velocity,feedback vs other,-0.31172062065398604,0,0,small,feedback,other,3205,2782,1.0000000000016958,TRUE
+Amplitude,affirmation vs feedback,0.328798863072853,0,0,small,affirmation,feedback,205,3205,0.9953758031425463,TRUE
+Amplitude,affirmation vs other,0.48844460179666394,0,0,small,affirmation,other,205,2782,0.9999991538618136,TRUE
+Amplitude,feedback vs other,0.1084498748928257,0,0,negligible,feedback,other,3205,2782,0.9869450071807822,TRUE
+Duration,affirmation vs feedback,-0.22100787355578272,0,0,small,affirmation,feedback,205,3205,0.8658386466644228,TRUE
+Duration,affirmation vs other,0.47820401073331636,0,0,small,affirmation,other,205,2782,0.9999983047236307,TRUE
+Duration,feedback vs other,0.6051562866748383,0,0,medium,feedback,other,3205,2782,1.000000000001611,TRUE
