@@ -31,16 +31,26 @@ suppressPackageStartupMessages({
   library(readxl)
 })
 
-cat("===============================================================================\n")
-cat("05_PUBLICATION_FIGURES: Cross-modal Head Nod Study\n")
-cat("Publication-Ready Figure Generation\n")
-cat("===============================================================================\n")
+# Load configuration if not already loaded
+if (!exists("CONFIG")) {
+  if (file.exists("../config.R")) {
+    source("../config.R")
+  } else if (file.exists("config.R")) {
+    source("config.R")
+  } else {
+    stop("config.R not found. Please ensure you're running from the correct directory.")
+  }
+}
 
-# Configuration
-CONFIG <- list(
-  OUTPUT_DIR = "c:/Users/Job Schepens/sciebo_new/vicomdata/output_2025-07-28-job/",
-  FIGURES_DIR = "figures_publication",
-  NORMALIZATION_FILE = "norm.xlsx",
+# Initialize analysis environment
+if (exists("initialize_analysis") && is.function(initialize_analysis)) {
+  initialize_analysis()
+}
+
+# Publication-specific configuration (extends base CONFIG)
+PUB_CONFIG <- list(
+  FIGURES_DIR = file.path(CONFIG$BASE_DIR, "figures"),
+  NORMALIZATION_FILE = file.path(CONFIG$DATA_DIR, "norm.xlsx"),
   
   # Publication settings
   DPI = 300,
@@ -62,23 +72,20 @@ CONFIG <- list(
   FUNCTION_COLORS = c("affirmation" = "#1f77b4", "feedback" = "#ff7f0e", "other" = "#2ca02c")
 )
 
-# Load configuration if not already loaded
-if (!exists("CONFIG")) {
-  source("../config.R")
-}
-
-# Initialize analysis environment
-initialize_analysis()
+cat("===============================================================================\n")
+cat("05_PUBLICATION_FIGURES: Cross-modal Head Nod Study\n")
+cat("Publication-Ready Figure Generation\n")
+cat("===============================================================================\n")
 
 # Create publication figures directory
-if (!dir.exists(CONFIG$FIGURES_DIR)) {
-  dir.create(CONFIG$FIGURES_DIR, recursive = TRUE)
+if (!dir.exists(PUB_CONFIG$FIGURES_DIR)) {
+  dir.create(PUB_CONFIG$FIGURES_DIR, recursive = TRUE)
 }
 
 cat("Configuration loaded:\n")
-cat("- Publication figures directory:", CONFIG$FIGURES_DIR, "\n")
-cat("- Figure resolution:", CONFIG$DPI, "DPI\n")
-cat("- Standard dimensions:", CONFIG$FIGURE_WIDTH, "x", CONFIG$FIGURE_HEIGHT, "\n\n")
+cat("- Publication figures directory:", PUB_CONFIG$FIGURES_DIR, "\n")
+cat("- Figure resolution:", PUB_CONFIG$DPI, "DPI\n")
+cat("- Standard dimensions:", PUB_CONFIG$FIGURE_WIDTH, "x", PUB_CONFIG$FIGURE_HEIGHT, "\n\n")
 
 # ===============================================================================
 # PUBLICATION THEME AND STYLING
@@ -116,10 +123,10 @@ theme_publication <- function(base_size = 12, base_family = "") {
 }
 
 #' Save publication figure with consistent settings
-save_publication_figure <- function(plot, filename, width = CONFIG$FIGURE_WIDTH, 
-                                  height = CONFIG$FIGURE_HEIGHT, dpi = CONFIG$DPI) {
+save_publication_figure <- function(plot, filename, width = PUB_CONFIG$FIGURE_WIDTH, 
+                                  height = PUB_CONFIG$FIGURE_HEIGHT, dpi = PUB_CONFIG$DPI) {
   
-  filepath <- file.path(CONFIG$FIGURES_DIR, filename)
+  filepath <- file.path(PUB_CONFIG$FIGURES_DIR, filename)
   
   ggsave(
     filename = filepath,
@@ -187,10 +194,10 @@ cat("===========================================================================
 
 # Load main datasets
 datasets <- list(
-  form_all = read_csv(file.path(CONFIG$OUTPUT_DIR, "form_wide_all_languages.csv"), show_col_types = FALSE),
-  function_all = read_csv(file.path(CONFIG$OUTPUT_DIR, "function_wide_all_languages.csv"), show_col_types = FALSE),
-  functionturn_all = read_csv(file.path(CONFIG$OUTPUT_DIR, "functionturn_wide_all_languages.csv"), show_col_types = FALSE),
-  turn_all = read_csv(file.path(CONFIG$OUTPUT_DIR, "turn_wide_all_languages.csv"), show_col_types = FALSE)
+  form_all = read_csv(file.path(CONFIG$DATA_DIR, "form_wide_all_languages.csv"), show_col_types = FALSE),
+  function_all = read_csv(file.path(CONFIG$DATA_DIR, "function_wide_all_languages.csv"), show_col_types = FALSE),
+  functionturn_all = read_csv(file.path(CONFIG$DATA_DIR, "functionturn_wide_all_languages.csv"), show_col_types = FALSE),
+  turn_all = read_csv(file.path(CONFIG$DATA_DIR, "turn_wide_all_languages.csv"), show_col_types = FALSE)
 )
 
 cat("Datasets loaded:\n")
@@ -199,8 +206,8 @@ for (name in names(datasets)) {
 }
 
 # Load normalization data
-if (file.exists(CONFIG$NORMALIZATION_FILE)) {
-  freq_data <- read_excel(CONFIG$NORMALIZATION_FILE, sheet = 1)
+if (file.exists(PUB_CONFIG$NORMALIZATION_FILE)) {
+  freq_data <- read_excel(PUB_CONFIG$NORMALIZATION_FILE, sheet = 1)
   
   # Process normalization
   freq_lang_col <- grep("lang|language", names(freq_data), ignore.case = TRUE, value = TRUE)[1]
@@ -570,11 +577,11 @@ cat("✓ FIGURE SPECIFICATIONS\n")
 cat(sprintf("  - Standard figures: %d x %d inches\n", CONFIG$FIGURE_WIDTH, CONFIG$FIGURE_HEIGHT))
 cat(sprintf("  - Wide figures: %d x %d inches\n", CONFIG$WIDE_FIGURE_WIDTH, CONFIG$FIGURE_HEIGHT))
 cat(sprintf("  - Multi-panel figures: %d x %d inches\n", CONFIG$WIDE_FIGURE_WIDTH, CONFIG$MULTI_PANEL_HEIGHT))
-cat(sprintf("  - Resolution: %d DPI\n", CONFIG$DPI))
+cat(sprintf("  - Resolution: %d DPI\n", PUB_CONFIG$DPI))
 cat("  - Format: PDF (vector graphics)\n\n")
 
 cat("✓ READY FOR MANUSCRIPT INTEGRATION\n")
-cat("  - All figures saved in:", CONFIG$FIGURES_DIR, "\n")
+cat("  - All figures saved in:", PUB_CONFIG$FIGURES_DIR, "\n")
 cat("  - Consistent naming convention applied\n")
 cat("  - Publication-ready quality and formatting\n")
 cat("  - Cross-modal comparison framework highlighted\n")

@@ -1,0 +1,23 @@
+# Docker Compose for Cross-Modal Head Nod Analysis
+version: '3.8'
+
+services:
+  head-nod-analysis:
+    build: .
+    container_name: cross-modal-analysis
+    volumes:
+      - ./figures:/analysis/figures
+      - ./results:/analysis/results
+    working_dir: /analysis
+    command: R --vanilla -e "source('test_repository.R')"
+    
+  # Interactive development environment
+  dev-environment:
+    build: .
+    container_name: cross-modal-dev
+    volumes:
+      - .:/analysis
+    working_dir: /analysis
+    command: R --vanilla --interactive
+    stdin_open: true
+    tty: true

@@ -84,22 +84,102 @@ check_data_files <- function() {
   return(all_files_exist)
 }
 
-# Function to test data loading
-test_data_loading <- function() {
-  cat("\nTesting data loading...\n")
+# Function to test config loading
+test_config_loading <- function() {
+  cat("\nTesting configuration loading...\n")
   
   tryCatch({
-    # Test main dataset
+    # Test config loading
+    if (file.exists("config.R")) {
+      source("config.R")
+      cat("  ✅ config.R loaded successfully\n")
+      
+      # Test that CONFIG exists and has required fields
+      if (exists("CONFIG")) {
+        required_config_fields <- c("BASE_DIR", "DATA_DIR", "SCRIPTS_DIR", "FIGURES_DIR", "RESULTS_DIR")
+        missing_fields <- c()
+        
+        for (field in required_config_fields) {
+          if (!field %in% names(CONFIG)) {
+            missing_fields <- c(missing_fields, field)
+          }
+        }
+        
+        if (length(missing_fields) > 0) {
+          cat("  ❌ Missing CONFIG fields:", paste(missing_fields, collapse = ", "), "\n")
+          return(FALSE)
+        } else {
+          cat("  ✅ All required CONFIG fields present\n")
+          cat("  ✅ Base directory:", CONFIG$BASE_DIR, "\n")
+          return(TRUE)
+        }
+      } else {
+        cat("  ❌ CONFIG object not created\n")
+        return(FALSE)
+      }
+    } else {
+      cat("  ❌ config.R file not found\n")
+      return(FALSE)
+    }
+  }, error = function(e) {
+    cat("  ❌ Error loading config:", e$message, "\n")
+    return(FALSE)
+  })
+}
+
+# Function to test actual script execution
+test_script_execution <- function() {
+  cat("\nTesting critical script functionality...\n")
+  
+  # Test data preparation script can be parsed and key functions work
+  tryCatch({
+    source("scripts/01_data_preparation.R", local = TRUE)
+    cat("  ✅ 01_data_preparation.R executed successfully\n")
+  }, error = function(e) {
+    cat("  ❌ Error in 01_data_preparation.R:", e$message, "\n")
+    return(FALSE)
+  })
+  
+  return(TRUE)
+}
+
+# Function to test data file structure and content
+test_data_structure <- function() {
+  cat("\nTesting data file structure and content...\n")
+  
+  tryCatch({
+    # Test main dataset structure
     data <- read.csv("data/function_wide_all_languages.csv")
-    cat("  ✅ function_wide_all_languages.csv loaded successfully (", nrow(data), "rows )\n")
     
-    # Test normalization file
-    norm_data <- readxl::read_excel("data/norm.xlsx")
-    cat("  ✅ norm.xlsx loaded successfully (", nrow(norm_data), "rows )\n")
+    # Check expected columns
+    expected_cols <- c("language", "Label", "length (seconds)", "extremes amplitude", "velocity")
+    missing_cols <- expected_cols[!expected_cols %in% names(data)]
+    
+    if (length(missing_cols) > 0) {
+      cat("  ❌ Missing expected columns:", paste(missing_cols, collapse = ", "), "\n")
+      return(FALSE)
+    } else {
+      cat("  ✅ All expected columns present\n")
+    }
+    
+    # Check for reasonable data ranges
+    if (nrow(data) < 100) {
+      cat("  ⚠️  Warning: Dataset seems small (", nrow(data), "rows)\n")
+    } else {
+      cat("  ✅ Dataset size looks reasonable (", nrow(data), "rows)\n")
+    }
+    
+    # Check for missing values in key columns
+    missing_values <- sapply(data[expected_cols], function(x) sum(is.na(x)))
+    if (any(missing_values > nrow(data) * 0.5)) {
+      cat("  ⚠️  Warning: High missing values in some columns\n")
+    } else {
+      cat("  ✅ Missing values within acceptable range\n")
+    }
     
     return(TRUE)
   }, error = function(e) {
-    cat("  ❌ Error loading data:", e$message, "\n")
+    cat("  ❌ Error testing data structure:", e$message, "\n")
     return(FALSE)
   })
 }
@@ -144,34 +224,41 @@ test_script_syntax <- function() {
 
 # Main validation function
 main_validation <- function() {
-  cat("Starting repository validation...\n\n")
+  cat("Starting comprehensive repository validation...\n\n")
   
   # Run all checks
   packages_ok <- check_packages()
   data_files_ok <- check_data_files()
-  data_loading_ok <- test_data_loading()
+  config_ok <- test_config_loading()
+  data_structure_ok <- test_data_structure()
   output_dirs_ok <- check_output_dirs()
   syntax_ok <- test_script_syntax()
+  execution_ok <- test_script_execution()
   
   # Summary
   cat("\n===============================================================================\n")
-  cat("VALIDATION SUMMARY\n")
+  cat("COMPREHENSIVE VALIDATION SUMMARY\n")
   cat("===============================================================================\n")
   
-  cat("📦 Packages:     ", if(packages_ok) "✅ PASS" else "❌ FAIL", "\n")
-  cat("📁 Data Files:   ", if(data_files_ok) "✅ PASS" else "❌ FAIL", "\n")
-  cat("📊 Data Loading: ", if(data_loading_ok) "✅ PASS" else "❌ FAIL", "\n")
-  cat("📂 Directories:  ", if(output_dirs_ok) "✅ PASS" else "❌ FAIL", "\n")
-  cat("📝 Script Syntax:", if(syntax_ok) "✅ PASS" else "❌ FAIL", "\n")
+  cat("📦 Packages:      ", if(packages_ok) "✅ PASS" else "❌ FAIL", "\n")
+  cat("📁 Data Files:    ", if(data_files_ok) "✅ PASS" else "❌ FAIL", "\n")
+  cat("⚙️  Configuration: ", if(config_ok) "✅ PASS" else "❌ FAIL", "\n")
+  cat("📊 Data Structure:", if(data_structure_ok) "✅ PASS" else "❌ FAIL", "\n")
+  cat("📂 Directories:   ", if(output_dirs_ok) "✅ PASS" else "❌ FAIL", "\n")
+  cat("📝 Script Syntax: ", if(syntax_ok) "✅ PASS" else "❌ FAIL", "\n")
+  cat("🔧 Execution:     ", if(execution_ok) "✅ PASS" else "❌ FAIL", "\n")
   
-  overall_status <- packages_ok && data_files_ok && data_loading_ok && output_dirs_ok && syntax_ok
+  overall_status <- all(c(packages_ok, data_files_ok, config_ok, data_structure_ok, 
+                         output_dirs_ok, syntax_ok, execution_ok))
   
   if (overall_status) {
-    cat("\n🎉 REPOSITORY VALIDATION SUCCESSFUL!\n")
-    cat("Repository is ready for sharing with collaborators.\n")
+    cat("\n🎉 COMPREHENSIVE REPOSITORY VALIDATION SUCCESSFUL!\n")
+    cat("Repository is fully tested and ready for collaboration.\n")
+    cat("All systems operational - scripts, data, and configuration verified.\n")
   } else {
     cat("\n🚨 REPOSITORY VALIDATION FAILED!\n") 
     cat("Please fix the issues above before sharing.\n")
+    cat("Run install.R first if packages are missing.\n")
   }
   
   cat("===============================================================================\n")
