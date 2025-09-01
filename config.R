@@ -53,6 +53,7 @@ cat("Repository root:", REPO_ROOT, "\n")
 CONFIG <- list(
   # === PATH CONFIGURATION ===
   REPO_ROOT = REPO_ROOT,
+  BASE_DIR = REPO_ROOT,  # Alias for compatibility with test scripts
   DATA_DIR = file.path(REPO_ROOT, "data"),
   SCRIPTS_DIR = file.path(REPO_ROOT, "scripts"),
   FIGURES_DIR = file.path(REPO_ROOT, "figures"),
@@ -68,7 +69,7 @@ CONFIG <- list(
   # === ANALYSIS PARAMETERS ===
   HEAD_NOD_FORMS = c("sn", "hnn", "mn", "ln", "lnn"),
   HEAD_NOD_FUNCTIONS = c("affirmation", "feedback", "other"),
-  KINEMATIC_VARS = c("length (seconds)", "extremes amplitude", "velocity"),
+  KINEMATIC_VARS = c("length..seconds.", "extremes.amplitude", "velocity"),
   LANGUAGES = c("DGS_2.0_2412", "GER_2412", "RSL_2507", "RUS_2503"),
   
   # === FUNCTION-TURN LABELS ===

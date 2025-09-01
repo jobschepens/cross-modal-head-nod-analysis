@@ -42,10 +42,25 @@ cat("===========================================================================
 dir.create("figures_refined", showWarnings = FALSE)
 dir.create("gardner_altman_refined", showWarnings = FALSE)
 
-# Configuration
-CONFIG <- list(
-  OUTPUT_DIR = "c:/Users/Job Schepens/sciebo_new/vicomdata/output_2025-07-28-job/",
-  OUTPUT_LOG = "refined_analyses_output.txt",
+# Load configuration if not already loaded
+if (!exists("CONFIG")) {
+  if (file.exists("../config.R")) {
+    source("../config.R")
+  } else if (file.exists("config.R")) {
+    source("config.R")
+  } else {
+    stop("config.R not found. Please ensure you're running from the correct directory.")
+  }
+}
+
+# Initialize analysis environment
+if (exists("initialize_analysis") && is.function(initialize_analysis)) {
+  initialize_analysis()
+}
+
+# Refined analysis configuration (extends base CONFIG)
+REFINED_CONFIG <- list(
+  OUTPUT_LOG = file.path(CONFIG$RESULTS_DIR, "refined_analyses_output.txt"),
   
   # Core categories to focus on
   HEAD_NOD_FORMS = c("sn", "hnn", "mn", "ln", "lnn"),

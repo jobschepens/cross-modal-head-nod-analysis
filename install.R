@@ -19,32 +19,40 @@ cat("===========================================================================
 cat("CROSS-MODAL HEAD NOD ANALYSIS REPOSITORY SETUP\n")
 cat("===============================================================================\n")
 
+# Set CRAN mirror for package installation
+if (length(getOption("repos")) == 1 && getOption("repos") == "@CRAN@") {
+  options(repos = c(CRAN = "https://cran.rstudio.com/"))
+  cat("✅ CRAN mirror set to: https://cran.rstudio.com/\n")
+}
+
 # ===============================================================================
 # 1. PACKAGE INSTALLATION
 # ===============================================================================
 
 cat("1. Installing required R packages...\n")
 
-# Define required packages
+# Define ESSENTIAL packages (based on actual script usage)
 required_packages <- c(
-  # Core data manipulation and analysis
-  "tidyverse", "dplyr", "readr", "ggplot2", "readxl",
+  # Core tidyverse (includes dplyr, readr, ggplot2, tidyr)
+  "tidyverse",
   
-  # Statistical analysis
-  "rstatix", "lme4", "lmerTest", "car", "emmeans", "effectsize", 
-  "boot", "broom", "broom.mixed",
+  # Data input/output
+  "readxl",
   
-  # Data reshaping and manipulation
-  "reshape2", "tidyr",
+  # Statistical analysis (core)
+  "rstatix", "lme4", "boot", "broom",
   
-  # Visualization
-  "viridis", "gridExtra", "patchwork", "scales", "RColorBrewer",
+  # Data reshaping
+  "reshape2",
   
-  # Output formatting
-  "knitr", "kableExtra",
+  # Visualization (essential)
+  "viridis", "patchwork", "scales", "RColorBrewer",
   
-  # Power analysis
-  "pwr"
+  # Advanced statistics (used in scripts 03-04)
+  "car", "emmeans", "effectsize", "pwr",
+  
+  # Output formatting (minimal)
+  "knitr"
 )
 
 # Function to install packages with progress tracking

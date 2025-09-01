@@ -31,16 +31,29 @@ for (pkg in optional_packages) {
   }
 }
 
-# Set working directory
-setwd("c:/Users/Job/sciebo6/vicomdata")
+# Load configuration if not already loaded
+if (!exists("CONFIG")) {
+  if (file.exists("../config.R")) {
+    source("../config.R")
+  } else if (file.exists("config.R")) {
+    source("config.R")
+  } else {
+    stop("config.R not found. Please ensure you're running from the correct directory.")
+  }
+}
+
+# Initialize analysis environment
+if (exists("initialize_analysis") && is.function(initialize_analysis)) {
+  initialize_analysis()
+}
 
 # REPRODUCTION ATTEMPT 1: Using final cleaned approach
 # Based on current state of archive/oldcode/code.R
 
 cat("=== REPRODUCTION ATTEMPT 1: Final Cleaned Approach ===\n")
 
-# Data loading (adjusted path)
-name <- "archive/output_2024-12-21/summary.all_files.function.DGS_2.0_2412.csv"
+# Data loading (using CONFIG paths)
+name <- file.path(CONFIG$DATA_DIR, "DGS_2.0_2412.csv")
 
 cat("Loading data from:", name, "\n")
 if (!file.exists(name)) {

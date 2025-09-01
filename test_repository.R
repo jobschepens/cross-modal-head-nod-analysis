@@ -152,7 +152,7 @@ test_data_structure <- function() {
     data <- read.csv("data/function_wide_all_languages.csv")
     
     # Check expected columns
-    expected_cols <- c("language", "Label", "length (seconds)", "extremes amplitude", "velocity")
+    expected_cols <- c("language", "Label", "length..seconds.", "extremes.amplitude", "velocity")
     missing_cols <- expected_cols[!expected_cols %in% names(data)]
     
     if (length(missing_cols) > 0) {
