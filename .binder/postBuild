@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Binder post-build script for cross-modal head nod analysis
+# This script runs after the environment is built
+
+echo "🔧 Setting up Cross-Modal Head Nod Analysis environment..."
+
+# Make R scripts executable
+chmod +x *.R
+chmod +x scripts/*.R
+
+# Install R packages
+echo "📦 Installing R packages..."
+Rscript install.R.binder
+
+# Set up data directories (if they don't exist)
+mkdir -p figures
+mkdir -p results  
+mkdir -p figures/gardner_altman
+mkdir -p results/tables
+
+# Test repository functionality
+echo "🧪 Testing repository..."
+Rscript test_repository.R
+
+echo "✅ Binder environment setup complete!"
+echo "🚀 Ready to run Cross-Modal Head Nod Analysis!"
+
+# Enable RStudio by default
+echo "📊 Starting with RStudio interface..."

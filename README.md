@@ -3,6 +3,35 @@
 [![DOI](https://img.shields.io/badge/DOI-paper%20reference-blue)](link-to-paper)
 [![R](https://img.shields.io/badge/R-4.4%2B-blue)](https://www.r-project.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jobschepens/cross-modal-head-nod-analysis/HEAD?urlpath=rstudio)
+
+## 🚀 Quick Start Options
+
+### Option 1: Run Online with Binder (No Installation Required!)
+Click the Binder badge above or this link to run the analysis in your browser:
+
+**🔗 [Launch Interactive Analysis](https://mybinder.org/v2/gh/jobschepens/cross-modal-head-nod-analysis/HEAD?urlpath=rstudio)**
+
+- ✅ No software installation needed
+- ✅ Full RStudio environment in browser
+- ✅ All packages pre-installed
+- ✅ Interactive analysis and visualization
+- ✅ Works on any device with web browser
+
+### Option 2: Local Installation
+```bash
+git clone https://github.com/jobschepens/cross-modal-head-nod-analysis.git
+cd cross-modal-head-nod-analysis
+Rscript install.R        # Install required packages
+Rscript test_repository.R  # Validate everything works
+```
+
+### Option 3: Docker Container
+```bash
+git clone https://github.com/jobschepens/cross-modal-head-nod-analysis.git
+cd cross-modal-head-nod-analysis
+docker-compose up head-nod-analysis
+```
 
 ## Overview
 
@@ -81,6 +110,7 @@ The kinematic analysis examines cross-modal head nod patterns with:
 - **RStudio** (recommended)
 
 ### R Packages
+
 ```r
 install.packages(c(
   "tidyverse",    # Data manipulation and visualization
@@ -92,6 +122,41 @@ install.packages(c(
   "reshape2"      # Data reshaping
 ))
 ```
+
+## 🐳 Binder Integration
+
+This repository is fully configured for **Binder**, allowing you to run the complete analysis in your browser without any local installation:
+
+### Features
+- ✅ **Zero installation**: Click and run immediately
+- ✅ **Full RStudio environment**: Complete IDE with all features
+- ✅ **Pre-installed packages**: All 16 essential R packages ready
+- ✅ **Interactive analysis**: Modify code, generate plots, explore data
+- ✅ **Reproducible environment**: Same setup for all users
+
+### Getting Started with Binder
+
+1. **Click the Binder badge** at the top of this README
+2. **Wait for environment setup** (2-3 minutes first time)
+3. **RStudio opens** in your browser automatically
+4. **Start analyzing**: All scripts and data ready to use
+
+### What's Available in Binder
+
+- **Interactive Notebook**: `analysis_notebook.Rmd` - Guided analysis tutorial
+- **Full Script Access**: All 8 analysis scripts in `scripts/` directory  
+- **Data Exploration**: Complete datasets in `data/` directory
+- **Results Generation**: Create figures and statistical outputs
+- **Repository Testing**: Run `test_repository.R` to validate everything
+
+### Binder Configuration Files
+
+The repository includes specialized Binder configuration:
+
+- `.binder/runtime.txt` - Specifies R version (4.4)
+- `.binder/install.R` - Installs all required R packages
+- `.binder/postBuild` - Sets up analysis environment
+- `analysis_notebook.Rmd` - Interactive tutorial notebook
 
 ## Usage
 

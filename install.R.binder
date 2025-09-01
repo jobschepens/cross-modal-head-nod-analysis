@@ -1,0 +1,40 @@
+source("https://raw.githubusercontent.com/r-lib/remotes/main/install-github.R")
+
+# Core tidyverse and data manipulation
+install.packages("tidyverse")
+install.packages("readxl")
+install.packages("dplyr")
+install.packages("readr")
+install.packages("ggplot2")
+install.packages("tidyr")
+
+# Statistical analysis packages
+install.packages("rstatix")
+install.packages("lme4")
+install.packages("boot")
+install.packages("broom")
+install.packages("car")
+install.packages("emmeans")
+install.packages("effectsize")
+install.packages("pwr")
+
+# Data reshaping
+install.packages("reshape2")
+
+# Visualization packages
+install.packages("viridis")
+install.packages("patchwork")
+install.packages("scales")
+install.packages("RColorBrewer")
+install.packages("gridExtra")
+
+# Output formatting
+install.packages("knitr")
+install.packages("rmarkdown")
+
+# Development and testing
+install.packages("devtools")
+install.packages("here")
+
+cat("✅ All Binder packages installed successfully!\n")
+cat("Repository is ready for analysis in Binder environment.\n")

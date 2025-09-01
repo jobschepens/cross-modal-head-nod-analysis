@@ -30,6 +30,14 @@ check_packages <- function() {
     "lmerTest", "patchwork", "scales", "knitr", "broom"
   )
   
+  # Check for Binder environment
+  in_binder <- Sys.getenv("BINDER_SERVICE_HOST") != ""
+  if (in_binder) {
+    cat("🐳 Running in Binder environment\n")
+    # Add rmarkdown for Binder notebooks
+    required_packages <- c(required_packages, "rmarkdown", "devtools", "here")
+  }
+  
   missing_packages <- c()
   
   for (pkg in required_packages) {
@@ -43,11 +51,23 @@ check_packages <- function() {
   
   if (length(missing_packages) > 0) {
     cat("\n🚨 MISSING PACKAGES DETECTED!\n")
-    cat("Install missing packages with:\n")
-    cat("install.packages(c(", paste0("'", missing_packages, "'", collapse = ", "), "))\n")
+    if (in_binder) {
+      cat("In Binder environment - trying to install missing packages...\n")
+      # Try to install missing packages
+      try({
+        install.packages(missing_packages, quiet = TRUE)
+        cat("✅ Missing packages installed in Binder\n")
+      })
+    } else {
+      cat("Install missing packages with:\n")
+      cat("install.packages(c(", paste0("'", missing_packages, "'", collapse = ", "), "))\n")
+    }
     return(FALSE)
   } else {
     cat("\n✅ All required packages are available!\n")
+    if (in_binder) {
+      cat("🎉 Binder environment fully configured!\n")
+    }
     return(TRUE)
   }
 }

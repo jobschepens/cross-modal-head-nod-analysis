@@ -1,0 +1,173 @@
+---
+title: "Cross-Modal Head Nod Analysis - Interactive Notebook"
+output: 
+  html_notebook:
+    toc: true
+    toc_float: true
+    theme: cosmo
+    highlight: tango
+---
+
+# Cross-Modal Head Nod Analysis
+
+This interactive notebook provides an overview of the cross-modal head nod kinematic analysis comparing German Sign Language (DGS), German, Russian Sign Language (RSL), and Russian.
+
+## Quick Start
+
+Run the following code chunk to initialize the analysis environment:
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Check if we're in Binder environment
+if (Sys.getenv("BINDER_SERVICE_HOST") != "") {
+  cat("🐳 Running in Binder environment\n")
+  # Install packages if needed
+  if (!file.exists("install.R.binder")) {
+    source("install.R")
+  } else {
+    source("install.R.binder")
+  }
+} else {
+  cat("💻 Running in local environment\n")
+  source("install.R")
+}
+
+# Load configuration
+source("config.R")
+```
+
+## Repository Overview
+
+This repository contains:
+
+- **Data**: Kinematic measurements from 4 languages across 4 tiers (form, function, turn, functionturn)
+- **Scripts**: 8 R analysis scripts for comprehensive statistical analysis
+- **Configuration**: Portable configuration system (`config.R`)
+- **Testing**: Comprehensive validation framework (`test_repository.R`)
+
+## Key Variables
+
+The analysis focuses on three kinematic properties:
+
+```{r variables}
+cat("📊 Kinematic Variables:\n")
+for (i in seq_along(CONFIG$KINEMATIC_VARS)) {
+  cat(sprintf("   %d. %s\n", i, CONFIG$KINEMATIC_VARS[i]))
+}
+
+cat("\n🌍 Languages:\n")
+for (i in seq_along(CONFIG$LANGUAGES)) {
+  cat(sprintf("   %d. %s\n", i, CONFIG$LANGUAGES[i]))
+}
+```
+
+## Data Overview
+
+```{r data-overview}
+# Load main dataset
+if (file.exists(CONFIG$FUNCTION_DATA)) {
+  data <- read.csv(CONFIG$FUNCTION_DATA)
+  
+  cat("📁 Function Data Overview:\n")
+  cat(sprintf("   Rows: %d\n", nrow(data)))
+  cat(sprintf("   Columns: %d\n", ncol(data)))
+  cat(sprintf("   Languages: %s\n", paste(unique(data$language), collapse = ", ")))
+  cat(sprintf("   Functions: %s\n", paste(unique(data$Label), collapse = ", ")))
+  
+  # Show first few rows
+  cat("\n📋 Sample Data:\n")
+  print(head(data[, c("language", "Label", CONFIG$KINEMATIC_VARS)], 10))
+} else {
+  cat("❌ Data files not found. Please ensure data/ directory contains the required CSV files.\n")
+}
+```
+
+## Quick Analysis Example
+
+```{r quick-analysis}
+library(ggplot2)
+library(dplyr)
+
+if (exists("data") && nrow(data) > 0) {
+  # Create a quick visualization
+  plot_data <- data %>%
+    filter(!is.na(length..seconds.)) %>%
+    mutate(modality = ifelse(grepl("DGS|RSL", language), "Signed", "Spoken"))
+  
+  p <- ggplot(plot_data, aes(x = modality, y = length..seconds., fill = modality)) +
+    geom_boxplot(alpha = 0.7) +
+    scale_fill_manual(values = c("Signed" = "#2E86AB", "Spoken" = "#A23B72")) +
+    labs(
+      title = "Head Nod Duration by Modality",
+      x = "Modality",
+      y = "Duration (seconds)",
+      fill = "Modality"
+    ) +
+    theme_minimal() +
+    theme(legend.position = "none")
+  
+  print(p)
+  
+  # Quick statistics
+  summary_stats <- plot_data %>%
+    group_by(modality) %>%
+    summarise(
+      n = n(),
+      mean_duration = mean(length..seconds., na.rm = TRUE),
+      sd_duration = sd(length..seconds., na.rm = TRUE),
+      .groups = 'drop'
+    )
+  
+  cat("\n📈 Quick Statistics:\n")
+  print(summary_stats)
+}
+```
+
+## Running Full Analysis
+
+To run the complete analysis pipeline:
+
+```{r full-analysis, eval=FALSE}
+# 1. Data Preparation
+source("scripts/01_data_preparation.R")
+
+# 2. Comprehensive Analysis  
+source("scripts/02_comprehensive_analysis.R")
+
+# 3. Advanced Statistics
+source("scripts/03_advanced_statistics.R")
+
+# 4. Refined Analyses
+source("scripts/04_refined_analyses.R")
+
+# 5. Publication Figures
+source("scripts/05_publication_figures.R")
+```
+
+## Repository Validation
+
+Test the complete repository functionality:
+
+```{r validation, eval=FALSE}
+# Run comprehensive validation
+source("test_repository.R")
+```
+
+## Links and Resources
+
+- **GitHub Repository**: [jobschepens/cross-modal-head-nod-analysis](https://github.com/jobschepens/cross-modal-head-nod-analysis)
+- **Launch in Binder**: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jobschepens/cross-modal-head-nod-analysis/HEAD?urlpath=rstudio)
+- **Documentation**: See `README.md` for detailed setup instructions
+
+## Interactive Environment
+
+This notebook is running in an interactive environment. You can:
+
+- ✅ Modify and run code chunks
+- ✅ Explore data interactively  
+- ✅ Generate custom visualizations
+- ✅ Run statistical analyses
+- ✅ Export results and figures
+
+Happy analyzing! 🎉
