@@ -4,8 +4,8 @@ FROM rocker/tidyverse:4.3.0
 # Set working directory
 WORKDIR /analysis
 
-# Install additional R packages
-RUN R -e "install.packages(c('reshape2', 'rstatix', 'lme4', 'readxl', 'viridis', 'gridExtra', 'car', 'emmeans', 'effectsize', 'boot', 'lmerTest', 'patchwork', 'scales', 'knitr', 'broom'), repos='https://cran.rstudio.com/')"
+# Install additional R packages (CORE ESSENTIALS ONLY)
+RUN R -e "install.packages(c('reshape2', 'rstatix', 'lme4', 'readxl', 'viridis', 'boot', 'broom', 'patchwork', 'scales'), repos='https://cran.rstudio.com/')"
 
 # Copy repository contents
 COPY . /analysis/

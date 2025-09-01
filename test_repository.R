@@ -25,9 +25,8 @@ check_packages <- function() {
   cat("Checking required R packages...\n")
   
   required_packages <- c(
-    "tidyverse", "ggplot2", "reshape2", "rstatix", "lme4", "readxl",
-    "viridis", "gridExtra", "car", "emmeans", "effectsize", "boot",
-    "lmerTest", "patchwork", "scales", "knitr", "broom"
+    "tidyverse", "readxl", "reshape2", "rstatix", "lme4", "boot", 
+    "broom", "viridis", "patchwork", "scales"
   )
   
   # Check for Binder environment

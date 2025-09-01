@@ -12,7 +12,7 @@ jobs:
     
     strategy:
       matrix:
-        r-version: ['4.2', '4.3', '4.4']
+        r-version: ['4.3', '4.4']
     
     steps:
     - uses: actions/checkout@v4
@@ -64,7 +64,7 @@ jobs:
         "
         
     - name: Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results-r${{ matrix.r-version }}

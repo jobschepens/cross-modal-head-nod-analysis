@@ -31,9 +31,9 @@ if (length(getOption("repos")) == 1 && getOption("repos") == "@CRAN@") {
 
 cat("1. Installing required R packages...\n")
 
-# Define ESSENTIAL packages (based on actual script usage)
+# Define CORE ESSENTIAL packages (actually used in scripts)
 required_packages <- c(
-  # Core tidyverse (includes dplyr, readr, ggplot2, tidyr)
+  # Core tidyverse (includes dplyr, ggplot2, readr, tidyr, etc.)
   "tidyverse",
   
   # Data input/output
@@ -45,14 +45,8 @@ required_packages <- c(
   # Data reshaping
   "reshape2",
   
-  # Visualization (essential)
-  "viridis", "patchwork", "scales", "RColorBrewer",
-  
-  # Advanced statistics (used in scripts 03-04)
-  "car", "emmeans", "effectsize", "pwr",
-  
-  # Output formatting (minimal)
-  "knitr"
+  # Visualization (essential only)
+  "viridis", "patchwork", "scales"
 )
 
 # Function to install packages with progress tracking
