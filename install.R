@@ -99,27 +99,6 @@ install_packages_with_progress <- function() {
   
   return(failed_packages)
 }
-          installed_count <- installed_count + 1
-        } else {
-          cat(" ❌ (installation failed)\n")
-          failed_packages <- c(failed_packages, pkg)
-        }
-      }, error = function(e) {
-        cat(" ❌ (error:", e$message, ")\n")
-        failed_packages <- c(failed_packages, pkg)
-      })
-    } else {
-      cat(" ✅ (already installed)\n")
-      installed_count <- installed_count + 1
-    }
-  }
-  
-  return(list(
-    installed = installed_count,
-    failed = failed_packages,
-    total = total_packages
-  ))
-}
 
 # Install packages with phased approach
 failed_packages <- install_packages_with_progress()
@@ -262,7 +241,7 @@ cat("SETUP SUMMARY\n")
 cat("===============================================================================\n")
 
 # Overall status
-packages_ok <- length(package_results$failed) == 0
+packages_ok <- length(failed_packages) == 0
 data_ok <- length(missing_files) == 0
 overall_ok <- packages_ok && data_ok
 
