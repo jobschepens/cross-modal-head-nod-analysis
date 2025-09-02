@@ -4,12 +4,18 @@
 cat("🐳 Installing CORE R packages for Binder environment...\n")
 
 # Set CRAN mirror for reliable installation
-options(repos = c(CRAN = "https://cran.rstudio.com/"))
+if (length(getOption("repos")) == 1 && getOption("repos") == "@CRAN@") {
+  options(repos = c(CRAN = "https://cran.rstudio.com/"))
+  cat("✅ CRAN mirror set to: https://cran.rstudio.com/\n")
+}
 
-# CORE essential packages only (9 packages)
+# CORE essential packages (25+ packages)
 required_packages <- c(
-  "tidyverse", "readxl", "rstatix", "lme4", "boot", "broom",
-  "reshape2", "viridis", "patchwork", "scales"
+  "tidyverse", "readxl", "rstatix", "lme4", "boot", "broom", "broom.mixed",
+  "reshape2", "viridis", "patchwork", "scales", "lmerTest", "performance",
+  "see", "ggeffects", "gridExtra", "RColorBrewer", "nonnest2", "survey",
+  "ordinal", "future.apply", "latticeExtra", "multcomp", "R.utils", "spelling",
+  "car", "emmeans", "effectsize", "pwr", "knitr", "rmarkdown", "devtools", "here"
 )
 
 # Add Binder-specific packages

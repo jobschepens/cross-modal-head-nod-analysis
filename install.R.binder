@@ -1,4 +1,7 @@
-source("https://raw.githubusercontent.com/r-lib/remotes/main/install-github.R")
+# Set CRAN mirror for reliable installation
+options(repos = c(CRAN = "https://cran.rstudio.com/"))
+
+cat("🐳 Installing R packages for Binder environment...\n")
 
 # Core tidyverse and data manipulation
 install.packages("tidyverse")
@@ -13,10 +16,26 @@ install.packages("rstatix")
 install.packages("lme4")
 install.packages("boot")
 install.packages("broom")
+install.packages("broom.mixed")
 install.packages("car")
 install.packages("emmeans")
 install.packages("effectsize")
 install.packages("pwr")
+install.packages("lmerTest")
+install.packages("performance")
+install.packages("see")
+install.packages("ggeffects")
+install.packages("patchwork")
+install.packages("gridExtra")
+install.packages("RColorBrewer")
+install.packages("nonnest2")
+install.packages("survey")
+install.packages("ordinal")
+install.packages("future.apply")
+install.packages("latticeExtra")
+install.packages("multcomp")
+install.packages("R.utils")
+install.packages("spelling")
 
 # Data reshaping
 install.packages("reshape2")

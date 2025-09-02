@@ -21,7 +21,21 @@
 
 # Load configuration if not already loaded
 if (!exists("CONFIG")) {
-  source("../config.R")
+  # Try different paths for different environments
+  config_paths <- c("../config.R", "config.R", "~/config.R")
+  config_loaded <- FALSE
+
+  for (config_path in config_paths) {
+    if (file.exists(config_path)) {
+      source(config_path)
+      config_loaded <- TRUE
+      break
+    }
+  }
+
+  if (!config_loaded) {
+    stop("Could not find config.R file. Please ensure it exists in the repository root.")
+  }
 }
 
 # Initialize analysis environment
@@ -418,7 +432,7 @@ plot_normalization_comparison <- ggplot(
     strip.text = element_text(size = 11, face = "bold"),
     axis.text.x = element_text(angle = 45, hjust = 1)
   ) +
-  scale_fill_brewer(type = "qual", palette = "Set2")
+  scale_fill_viridis_d(name = "Language")
 
 # ===============================================================================
 # TASK 1: HEAD NOD FORMS ANALYSIS

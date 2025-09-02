@@ -286,6 +286,11 @@ main_validation <- function() {
 }
 
 # Run validation
-if (!interactive()) {
+# Check for Binder environment or non-interactive mode
+in_binder <- Sys.getenv("BINDER_SERVICE_HOST") != ""
+if (!interactive() || in_binder) {
   main_validation()
+} else {
+  cat("Running in interactive mode.\n")
+  cat("To run validation manually, execute: main_validation()\n")
 }

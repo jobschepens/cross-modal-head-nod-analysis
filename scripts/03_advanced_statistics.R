@@ -54,7 +54,21 @@ set.seed(42)
 
 # Load configuration if not already loaded
 if (!exists("CONFIG")) {
-  source("../config.R")
+  # Try different paths for different environments
+  config_paths <- c("../config.R", "config.R", "~/config.R")
+  config_loaded <- FALSE
+
+  for (config_path in config_paths) {
+    if (file.exists(config_path)) {
+      source(config_path)
+      config_loaded <- TRUE
+      break
+    }
+  }
+
+  if (!config_loaded) {
+    stop("Could not find config.R file. Please ensure it exists in the repository root.")
+  }
 }
 
 # Initialize analysis environment
