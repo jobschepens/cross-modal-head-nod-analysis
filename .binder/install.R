@@ -1,7 +1,7 @@
-# Binder R package installation script
-# Installs CORE ESSENTIAL packages for cross-modal head nod analysis
+# Binder R package installation script (using rocker/binder base)
+# The rocker/binder image comes with many packages pre-installed
 
-cat("🐳 Installing CORE R packages for Binder environment...\n")
+cat("🐳 Setting up packages for rocker/binder environment...\n")
 
 # Set CRAN mirror for reliable installation
 if (length(getOption("repos")) == 1 && getOption("repos") == "@CRAN@") {
@@ -9,25 +9,33 @@ if (length(getOption("repos")) == 1 && getOption("repos") == "@CRAN@") {
   cat("✅ CRAN mirror set to: https://cran.rstudio.com/\n")
 }
 
-# CORE essential packages (25+ packages)
-required_packages <- c(
-  "tidyverse", "readxl", "rstatix", "lme4", "boot", "broom", "broom.mixed",
-  "reshape2", "viridis", "patchwork", "scales", "lmerTest", "performance",
-  "see", "ggeffects", "gridExtra", "RColorBrewer", "nonnest2", "survey",
-  "ordinal", "future.apply", "latticeExtra", "multcomp", "R.utils", "spelling",
-  "car", "emmeans", "effectsize", "pwr", "knitr", "rmarkdown", "devtools", "here"
+# Check which packages are already available in rocker/binder
+essential_packages <- c(
+  "tidyverse", "readxl", "rstatix", "lme4", "boot", "broom", 
+  "reshape2", "viridis", "patchwork", "scales", "lmerTest", 
+  "car", "emmeans", "effectsize", "gridExtra", "knitr"
 )
 
-# Add Binder-specific packages
-binder_packages <- c("rmarkdown", "devtools", "here")
-all_packages <- c(required_packages, binder_packages)
+# Install any missing packages
+missing_packages <- c()
+cat("🔍 Checking package availability...\n")
 
-# Install packages with progress tracking
-for (i in seq_along(all_packages)) {
-  pkg <- all_packages[i]
-  cat(sprintf("[%d/%d] Installing %s...\n", i, length(all_packages), pkg))
-  
+for (pkg in essential_packages) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
+    missing_packages <- c(missing_packages, pkg)
+    cat(sprintf("  📦 Need to install: %s\n", pkg))
+  } else {
+    cat(sprintf("  ✅ Available: %s\n", pkg))
+  }
+}
+
+if (length(missing_packages) > 0) {
+  cat(sprintf("📥 Installing %d missing packages...\n", length(missing_packages)))
+  install.packages(missing_packages, dependencies = TRUE, quiet = TRUE)
+  cat("✅ Package installation completed\n")
+} else {
+  cat("🎉 All essential packages already available!\n")
+}
     install.packages(pkg, dependencies = TRUE, quiet = TRUE)
   }
 }

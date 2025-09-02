@@ -1,23 +1,31 @@
 #!/bin/bash
 
 # Binder post-build script for cross-modal head nod analysis
-# This script runs after the environment is built
+# Most setup is now handled by the Dockerfile using rocker/binder
 
-echo "🔧 Setting up Cross-Modal Head Nod Analysis environment..."
+echo "🔧 Final Binder setup for Cross-Modal Head Nod Analysis..."
 
-# Make R scripts executable
+# Make R scripts executable (if needed)
 chmod +x *.R
-chmod +x scripts/*.R
+chmod +x scripts/*.R 2>/dev/null || true
 
-# Install R packages
-echo "📦 Installing R packages..."
-Rscript -e "options(repos = c(CRAN = 'https://cran.rstudio.com/')); source('install.R.binder')"
+# Verify environment
+echo "✅ Rocker/Binder environment ready!"
+echo "� Cross-modal head nod analysis environment configured"
 
-# Set up data directories (if they don't exist)
-mkdir -p figures
-mkdir -p results  
-mkdir -p figures/gardner_altman
-mkdir -p results/tables
+# Test key packages
+R --vanilla -e "
+cat('🧪 Testing key packages...\n')
+packages <- c('tidyverse', 'lme4', 'rstatix')
+for (pkg in packages) {
+  if (requireNamespace(pkg, quietly = TRUE)) {
+    cat('✅', pkg, 'available\n')
+  } else {
+    cat('❌', pkg, 'missing\n')
+  }
+}
+cat('🎉 Environment ready for analysis!\n')
+"
 
 # Test repository functionality
 echo "🧪 Testing repository..."

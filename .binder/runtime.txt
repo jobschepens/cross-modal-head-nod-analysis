@@ -1,1 +1,3 @@
-r-4.4-2024-04-24
+# Using Dockerfile instead of runtime.txt for rocker/binder
+# This provides better package compatibility and build reliability
+# r-4.4-2024-04-24

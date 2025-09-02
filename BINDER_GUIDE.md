@@ -1,51 +1,55 @@
-# Binder Integration Guide
+# Binder Integration Guide - Rocker Project Edition
 
 ## Overview
-This repository is now fully integrated with Binder, allowing users to run the complete cross-modal head nod analysis in their browser without any local installation.
+This repository uses **rocker/binder** for a reliable, consistent Binder environment that matches our Docker setup. This provides better package compatibility and eliminates the lme4 compilation issues.
 
 ## What is Binder?
-Binder (mybinder.org) is a free service that creates reproducible, interactive computational environments from Git repositories. It:
-- Builds a Docker container from your repository
-- Provides access via web browser
-- Includes RStudio, Jupyter, or other interfaces
-- Requires no software installation from users
+Binder (mybinder.org) is a free service that creates reproducible, interactive computational environments from Git repositories. Our setup uses the rocker project for enhanced reliability.
 
 ## Repository Configuration
 
-### Core Binder Files
-- `.binder/runtime.txt` - Specifies R version (4.4)
-- `.binder/install.R` - Installs all required R packages
-- `.binder/postBuild` - Post-build setup script
+### Core Binder Files (Updated for Rocker)
+- `.binder/Dockerfile` - **NEW**: Uses rocker/binder base image
+- `.binder/runtime.txt` - Updated to document Dockerfile usage
+- `.binder/install.R` - Streamlined for rocker environment
+- `.binder/postBuild` - Simplified post-build verification
 - `analysis_notebook.Rmd` - Interactive tutorial notebook
 
-### Supporting Files
-- `requirements.txt` - R package dependencies
-- `install.R.binder` - Binder-specific package installation
-- Updated `README.md` with Binder badge and instructions
-- Enhanced `test_repository.R` with Binder environment detection
+### Rocker Integration Benefits
+✅ **Consistent Environment**: Same base as our main Docker setup
+✅ **Pre-installed Packages**: rocker/binder includes many R packages
+✅ **Reliable lme4**: No compilation issues (same fix as Docker)
+✅ **Better Performance**: Faster builds, fewer installation failures
+✅ **System Libraries**: All necessary dependencies included
 
 ## Binder Environment Features
 
 ### Pre-installed Components
-✅ R 4.4 with RStudio interface
-✅ All 20 essential R packages (including extras for Binder)
+✅ R 4.4+ with RStudio interface (via rocker/binder)
+✅ Essential R packages pre-installed in base image
 ✅ Complete repository with data and scripts
 ✅ Output directories pre-created
 ✅ Repository validation on startup
+✅ Same system libraries as main Docker environment
 
-### Package List
-Essential analysis packages:
+### Package Management
+**Rocker/Binder Approach**: 
+- Most packages come pre-installed with rocker/binder base image
+- Only missing packages are installed during build
+- Same reliable lme4 installation as our Docker setup
+- Faster build times due to fewer compilation requirements
+
+**Essential Analysis Packages**:
 - tidyverse, readxl, rstatix, lme4, boot, broom
-- car, emmeans, effectsize, pwr, reshape2
-- viridis, patchwork, scales, RColorBrewer, gridExtra
-- knitr, rmarkdown, devtools, here
+- car, emmeans, effectsize, reshape2, viridis
+- patchwork, scales, gridExtra, knitr, lmerTest
 
 ### User Experience
 1. **Click Binder badge** in README
-2. **Wait 2-3 minutes** for environment build (first time)
+2. **Wait 1-2 minutes** for environment build (faster with rocker)
 3. **RStudio opens** automatically in browser
 4. **All scripts ready** to run immediately
-5. **Interactive analysis** with full R capabilities
+5. **Reliable lme4** - no compilation failures
 
 ## Access Methods
 

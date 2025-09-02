@@ -1,8 +1,15 @@
-# Cross-Modal Head Nod Analysis Docker Environment
-FROM rocker/tidyverse:latest
+# Alternative Dockerfile using r-base instead of rocker/tidyverse
+# This tests a different base image approach
 
-# Install system dependencies needed for R packages
+FROM r-base:latest
+
+# Install system dependencies including those needed for lme4
 RUN apt-get update && apt-get install -y \
+    cmake \
+    libgsl-dev \
+    liblapack-dev \
+    libblas-dev \
+    libnlopt-dev \
     libxml2-dev \
     libssl-dev \
     libcurl4-openssl-dev \
@@ -11,6 +18,13 @@ RUN apt-get update && apt-get install -y \
     libgdal-dev \
     libgeos-dev \
     libproj-dev \
+    libfontconfig1-dev \
+    libfreetype6-dev \
+    libpng-dev \
+    libtiff5-dev \
+    libjpeg-dev \
+    build-essential \
+    gfortran \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
