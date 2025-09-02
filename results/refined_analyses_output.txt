@@ -1,0 +1,60 @@
+Configuration loaded:
+- Core head nod forms: sn, hnn, mn, ln, lnn 
+- Affirmation labels: affirm PR, affirm mid-turn, affirmation turn_initialization 
+- Feedback labels: feedb PR, feedb mid-turn, feedback turn_initialization 
+- Kinematic variables:  
+
+===============================================================================
+REFINED HEAD NOD FORMS ANALYSIS
+===============================================================================
+Core head nod forms selected:
+FORMS: sn, hnn, mn, ln, lnn 
+
+Error loading or analyzing form data: cannot open the connection 
+
+===============================================================================
+REFINED FUNCTION-TURN ANALYSIS
+===============================================================================
+Key categories selected:
+AFFIRMATION: affirm PR, affirm mid-turn, affirmation turn_initialization 
+FEEDBACK: feedb PR, feedb mid-turn, feedback turn_initialization 
+
+Error loading or analyzing functionturn data: cannot open the connection 
+
+===============================================================================
+COMPREHENSIVE POWER ANALYSIS
+===============================================================================
+
+===============================================================================
+REFINED ANALYSIS SUMMARY
+===============================================================================
+✓ REFINED HEAD NOD FORMS ANALYSIS COMPLETED
+  - Focused on core categories: sn, hnn, mn, ln, lnn 
+  - Statistical analysis with effect sizes and power calculations
+  - Gardner-Altman plots for key contrasts
+
+✓ REFINED FUNCTION-TURN ANALYSIS COMPLETED
+  - Focused on 6 specific labels (3 affirmation + 3 feedback)
+  - Cross-modal comparisons (signed vs spoken)
+  - Comprehensive statistical testing with post-hoc analyses
+
+✓ METHODOLOGICAL IMPROVEMENTS
+  - Cleaner statistical comparisons with focused categories
+  - Reduced multiple comparison burden
+  - Enhanced interpretability of results
+  - Targeted effect size calculations
+
+✓ OUTPUT FILES GENERATED
+  - Refined Gardner-Altman plots: gardner_altman_refined/
+  - Statistical analysis figures: figures_refined/
+  - Comprehensive statistical output logged
+
+✓ READY FOR PUBLICATION FIGURES
+  - Core categories identified and analyzed
+  - Key contrasts highlighted
+  - Statistical support for main findings
+
+===============================================================================
+04_REFINED_ANALYSES COMPLETED SUCCESSFULLY
+Ready for publication figure generation (script 05)
+===============================================================================

@@ -52,23 +52,6 @@ cat("===========================================================================
 # Set up for reproducible results
 set.seed(42)
 
-# Configuration
-CONFIG <- list(
-  OUTPUT_DIR = "../output_2025-07-28-job/",
-  NORMALIZATION_FILE = "../norm.xlsx",
-  FIGURES_DIR = "figures",
-  GARDNER_ALTMAN_DIR = "figures",
-  OUTPUT_LOG = "advanced_statistical_analysis_output.txt",
-  
-  # Variables for analysis
-  KINEMATIC_VARS = c("length (seconds)", "extremes amplitude", "velocity"),
-  TARGET_FUNCTIONS = c("affirmation", "feedback", "other"),
-  
-  # Plot settings
-  PLOT_WIDTH = 8,
-  PLOT_HEIGHT = 6
-)
-
 # Load configuration if not already loaded
 if (!exists("CONFIG")) {
   source("../config.R")
@@ -76,6 +59,24 @@ if (!exists("CONFIG")) {
 
 # Initialize analysis environment
 initialize_analysis()
+
+# Override CONFIG with script-specific settings
+original_CONFIG <- CONFIG
+CONFIG <- list(
+  OUTPUT_DIR = "data",
+  NORMALIZATION_FILE = "data/norm.xlsx",
+  FIGURES_DIR = "figures",
+  GARDNER_ALTMAN_DIR = "figures",
+  OUTPUT_LOG = "advanced_statistical_analysis_output.txt",
+
+  # Variables for analysis
+  KINEMATIC_VARS = c("length (seconds)", "extremes amplitude", "velocity"),
+  TARGET_FUNCTIONS = c("affirmation", "feedback", "other"),
+
+  # Plot settings
+  PLOT_WIDTH = 8,
+  PLOT_HEIGHT = 6
+)
 
 # Create output directories
 for (dir in c(CONFIG$FIGURES_DIR, file.path(CONFIG$FIGURES_DIR, "gardner_altman"))) {
@@ -85,7 +86,7 @@ for (dir in c(CONFIG$FIGURES_DIR, file.path(CONFIG$FIGURES_DIR, "gardner_altman"
 }
 
 # Start logging
-sink(CONFIG$OUTPUT_LOG, split = TRUE)
+sink(file.path(CONFIG$RESULTS_DIR, CONFIG$OUTPUT_LOG), split = TRUE)
 
 cat("Configuration loaded:\n")
 cat("- Kinematic variables:", paste(CONFIG$KINEMATIC_VARS, collapse = ", "), "\n")
@@ -712,16 +713,16 @@ cat("Statistical Results Summary:\n")
 print(results_summary %>% select(variable, comparison, effect_size_ci, interpretation, power_status))
 
 # Save statistical results
-write_csv(results_summary, "advanced_statistical_results_summary.csv")
+write_csv(results_summary, file.path(CONFIG$RESULTS_DIR, "advanced_statistical_results_summary.csv"))
 
 # Save model comparison if available
 if (exists("model_comparison") && nrow(model_comparison) > 0) {
-  write_csv(model_comparison, "advanced_model_comparison.csv")
+  write_csv(model_comparison, file.path(CONFIG$RESULTS_DIR, "advanced_model_comparison.csv"))
 }
 
 # Save bootstrap confidence intervals
 bootstrap_combined <- combined_effect_sizes
-write_csv(bootstrap_combined, "advanced_bootstrap_confidence_intervals.csv")
+write_csv(bootstrap_combined, file.path(CONFIG$RESULTS_DIR, "advanced_bootstrap_confidence_intervals.csv"))
 
 # ===============================================================================
 # SAVE GARDNER-ALTMAN PLOTS
@@ -777,7 +778,7 @@ latex_table <- kable(pub_table, format = "latex", booktabs = TRUE,
                     caption = "Advanced Statistical Analysis: Effect Sizes and Power Analysis") %>%
   kable_styling(latex_options = c("striped", "hold_position"))
 
-writeLines(latex_table, "advanced_statistics_table.tex")
+writeLines(latex_table, file.path(CONFIG$RESULTS_DIR, "advanced_statistics_table.tex"))
 
 cat("\nResults saved:\n")
 cat("- advanced_statistical_results_summary.csv\n")
@@ -841,7 +842,7 @@ latex_table <- kable(pub_table, format = "latex", booktabs = TRUE,
                     caption = "Advanced Statistical Analysis: Effect Sizes and Power Analysis") %>%
   kable_styling(latex_options = c("striped", "hold_position"))
 
-writeLines(latex_table, "advanced_statistics_table.tex")
+writeLines(latex_table, file.path(CONFIG$RESULTS_DIR, "advanced_statistics_table.tex"))
 
 cat("\nResults saved:\n")
 cat("- advanced_statistical_results_summary.csv\n")

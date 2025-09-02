@@ -55,48 +55,51 @@ viz_packages <- c(
 # All packages combined for final check
 required_packages <- c(core_packages, basic_packages, stats_packages, viz_packages)
 
-# Function to install packages with progress tracking and phased approach
+# Function to install packages with progress tracking and optimized approach
 install_packages_with_progress <- function() {
-  # Install in phases to handle dependencies properly
-  phases <- list(
-    "Core Dependencies" = core_packages,
-    "Basic Packages" = basic_packages, 
-    "Statistical Packages" = stats_packages,
-    "Visualization Packages" = viz_packages
-  )
-  
+  # Combine all packages for more efficient installation
+  all_packages <- c(core_packages, basic_packages, stats_packages, viz_packages)
+
   failed_packages <- c()
-  
-  for (phase_name in names(phases)) {
-    packages <- phases[[phase_name]]
-    cat(sprintf("\n--- Phase: %s ---\n", phase_name))
-    
-    for (i in seq_along(packages)) {
-      pkg <- packages[i]
-      cat(sprintf("  [%d/%d] Checking %s...", i, length(packages), pkg))
-      
-      if (!requireNamespace(pkg, quietly = TRUE)) {
-        cat(" installing...")
-        tryCatch({
-          # Force install with dependencies for critical packages
-          install.packages(pkg, dependencies = TRUE, quiet = FALSE)
-          if (requireNamespace(pkg, quietly = TRUE)) {
-            cat(" ✅\n")
-          } else {
-            cat(" ❌ (failed to load after install)\n")
-            failed_packages <- c(failed_packages, pkg)
-          }
-        }, error = function(e) {
-          cat(" ❌ (installation failed)\n")
-          cat(sprintf("    Error: %s\n", e$message))
-          failed_packages <<- c(failed_packages, pkg)
-        })
-      } else {
-        cat(" ✅ (already installed)\n")
-      }
+
+  # Check which packages are already installed
+  already_installed <- c()
+  to_install <- c()
+
+  cat("Checking package availability...\n")
+  for (pkg in all_packages) {
+    if (requireNamespace(pkg, quietly = TRUE)) {
+      already_installed <- c(already_installed, pkg)
+      cat(sprintf("  ✅ Already installed: %s\n", pkg))
+    } else {
+      to_install <- c(to_install, pkg)
     }
   }
-  
+
+  cat(sprintf("\n📦 %d/%d packages already available\n", length(already_installed), length(all_packages)))
+
+  if (length(to_install) > 0) {
+    cat(sprintf("📥 Installing %d missing packages...\n", length(to_install)))
+
+    # Install all missing packages at once for better performance
+    tryCatch({
+      install.packages(to_install, dependencies = TRUE, quiet = TRUE, Ncpus = parallel::detectCores())
+      cat("✅ Package installation completed\n")
+
+      # Verify installation
+      for (pkg in to_install) {
+        if (!requireNamespace(pkg, quietly = TRUE)) {
+          failed_packages <- c(failed_packages, pkg)
+          cat(sprintf("  ❌ Failed to install: %s\n", pkg))
+        }
+      }
+    }, error = function(e) {
+      cat("❌ Package installation failed\n")
+      cat(sprintf("Error: %s\n", e$message))
+      failed_packages <<- to_install
+    })
+  }
+
   return(failed_packages)
 }
 

@@ -37,11 +37,11 @@ cat("===========================================================================
 # Configuration constants
 CONFIG <- list(
   # Directories
-  DATA_DIR = "../output_2025-07-28-job/",
+  DATA_DIR = "../data",
   FIGURES_DIR = "figures",
   
   # File paths
-  NORMALIZATION_FILE = "../norm.xlsx",
+  NORMALIZATION_FILE = "../data/norm.xlsx",
   OUTPUT_LOG = "corrected_analysis_output.txt",
   
   # CORRECTED: Analysis parameters with proper labels
@@ -61,7 +61,9 @@ if (!exists("CONFIG")) {
 }
 
 # Initialize analysis environment
-initialize_analysis()
+if (exists("initialize_analysis") && is.function(initialize_analysis)) {
+  initialize_analysis()
+}
 
 cat("Configuration loaded:\n")
 cat("- Data directory:", CONFIG$DATA_DIR, "\n")
@@ -440,17 +442,18 @@ for (property in CONFIG$PHONETIC_PROPERTIES) {
   # Add statistical annotations
   stat_data <- cross_modal_data %>%
     group_by(Label) %>%
-    do(
-      test = tryCatch({
-        t.test(.data[[property]] ~ modality, data = .)
-      }, error = function(e) NULL)
+    summarise(
+      p_value = tryCatch({
+        result <- t.test(.data[[property]] ~ modality, data = .)
+        result$p.value
+      }, error = function(e) NA),
+      .groups = "drop"
     ) %>%
     mutate(
-      p_value = map_dbl(test, ~ if(is.null(.x)) NA else .x$p.value),
       significance = case_when(
         is.na(p_value) ~ "",
         p_value < 0.001 ~ "***",
-        p_value < 0.01 ~ "**", 
+        p_value < 0.01 ~ "**",
         p_value < 0.05 ~ "*",
         TRUE ~ "ns"
       )

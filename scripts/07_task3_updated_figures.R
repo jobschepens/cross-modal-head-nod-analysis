@@ -278,37 +278,37 @@ p3_combined_correct <- ggplot(
 cat("Saving plots with correct jitter pattern...\n")
 
 # Method 1: Grey (no jitter) + colored (jitter)
-ggsave("task3_velocity_correct_jitter.pdf", p3_velocity_correct,
+ggsave(file.path(CONFIG$FIGURES_DIR, "task3_velocity_correct_jitter.pdf"), p3_velocity_correct,
        width = 12, height = 8, dpi = 300)
 
-ggsave("task3_duration_correct_jitter.pdf", p3_duration_correct,
+ggsave(file.path(CONFIG$FIGURES_DIR, "task3_duration_correct_jitter.pdf"), p3_duration_correct,
        width = 12, height = 8, dpi = 300)
 
-ggsave("task3_amplitude_correct_jitter.pdf", p3_amplitude_correct,
+ggsave(file.path(CONFIG$FIGURES_DIR, "task3_amplitude_correct_jitter.pdf"), p3_amplitude_correct,
        width = 12, height = 8, dpi = 300)
 
 # Method 2: Simple version (only colored jitter)
-ggsave("task3_velocity_simple_jitter.pdf", p3_velocity_simple,
+ggsave(file.path(CONFIG$FIGURES_DIR, "task3_velocity_simple_jitter.pdf"), p3_velocity_simple,
        width = 12, height = 8, dpi = 300)
 
-ggsave("task3_duration_simple_jitter.pdf", p3_duration_simple,
+ggsave(file.path(CONFIG$FIGURES_DIR, "task3_duration_simple_jitter.pdf"), p3_duration_simple,
        width = 12, height = 8, dpi = 300)
 
-ggsave("task3_amplitude_simple_jitter.pdf", p3_amplitude_simple,
+ggsave(file.path(CONFIG$FIGURES_DIR, "task3_amplitude_simple_jitter.pdf"), p3_amplitude_simple,
        width = 12, height = 8, dpi = 300)
 
 # Combined plot
-ggsave("task3_kinematic_distributions_correct_jitter.pdf", p3_combined_correct,
+ggsave(file.path(CONFIG$FIGURES_DIR, "task3_kinematic_distributions_correct_jitter.pdf"), p3_combined_correct,
        width = 16, height = 12, dpi = 300)
 
 # Save with collaborator package naming (using simple jitter approach)
-ggsave("task3_cross_modal_comparison_velocity_correct_jitter.pdf", p3_velocity_simple,
+ggsave(file.path(CONFIG$FIGURES_DIR, "task3_cross_modal_comparison_velocity_correct_jitter.pdf"), p3_velocity_simple,
        width = 12, height = 8, dpi = 300)
 
-ggsave("task3_cross_modal_comparison_length__seconds__correct_jitter.pdf", p3_duration_simple,
+ggsave(file.path(CONFIG$FIGURES_DIR, "task3_cross_modal_comparison_length__seconds__correct_jitter.pdf"), p3_duration_simple,
        width = 12, height = 8, dpi = 300)
 
-ggsave("task3_cross_modal_comparison_extremes_amplitude_correct_jitter.pdf", p3_amplitude_simple,
+ggsave(file.path(CONFIG$FIGURES_DIR, "task3_cross_modal_comparison_extremes_amplitude_correct_jitter.pdf"), p3_amplitude_simple,
        width = 12, height = 8, dpi = 300)
 
 cat("\\nCorrect jitter pattern Task 3 plots generated successfully!\\n")

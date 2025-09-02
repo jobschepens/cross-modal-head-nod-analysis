@@ -105,7 +105,7 @@ cat("Nod function distribution:\n")
 print(table(raw$nod))
 
 # Save intermediate file
-write.csv(raw, file = "reproduction_raw_function_dgs.csv", row.names = FALSE)
+write.csv(raw, file = file.path(CONFIG$RESULTS_DIR, "reproduction_raw_function_dgs.csv"), row.names = FALSE)
 
 # Read back and continue analysis
 df <- read_csv("reproduction_raw_function_dgs.csv") 
@@ -356,10 +356,10 @@ cat("\nCRITICAL FINDING: Outlier removal strategy affects results:",
 cat("\nReproduction completed at:", Sys.time(), "\n")
 
 # Save results
-save(df2_final, df2_earlier, df2_none, 
+save(df2_final, df2_earlier, df2_none,
      analysis_final, analysis_earlier, analysis_none,
-     aic_comparison, models, 
+     aic_comparison, models,
      cor_velocity_amplitude, cor_velocity_duration, cor_amplitude_duration,
-     file = "reproduction_results_sensitivity.RData")
+     file = file.path(CONFIG$RESULTS_DIR, "reproduction_results_sensitivity.RData"))
 
 cat("Results saved to: reproduction_results_sensitivity.RData\n")

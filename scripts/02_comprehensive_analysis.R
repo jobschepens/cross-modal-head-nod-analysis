@@ -45,11 +45,11 @@ cat("===========================================================================
 # Script-specific configuration constants
 SCRIPT_CONFIG <- list(
   # Data files (using relative paths from repository root)
-  FUNCTION_DATA = "../data/function_wide_all_languages.csv",
-  FORM_DATA = "../data/form_wide_all_languages.csv", 
-  FUNCTIONTURN_DATA = "../data/functionturn_wide_all_languages.csv",
-  TURN_DATA = "../data/turn_wide_all_languages.csv",
-  NORMALIZATION_FILE = "../data/norm.xlsx",
+  FUNCTION_DATA = "data/function_wide_all_languages.csv",
+  FORM_DATA = "data/form_wide_all_languages.csv",
+  FUNCTIONTURN_DATA = "data/functionturn_wide_all_languages.csv",
+  TURN_DATA = "data/turn_wide_all_languages.csv",
+  NORMALIZATION_FILE = "data/norm.xlsx",
   
   # Output directories
   FIGURES_DIR = "../figures",
@@ -245,14 +245,14 @@ cat("===========================================================================
 
 # Load main datasets
 datasets <- list(
-  form_all = load_csv_safely("form_wide_all_languages.csv", "form data"),
-  function_all = load_csv_safely("function_wide_all_languages.csv", "function data"),
-  functionturn_all = load_csv_safely("functionturn_wide_all_languages.csv", "function-turn data"),
-  turn_all = load_csv_safely("turn_wide_all_languages.csv", "turn data")
+  form_all = load_csv_safely("data/form_wide_all_languages.csv", "form data"),
+  function_all = load_csv_safely("data/function_wide_all_languages.csv", "function data"),
+  functionturn_all = load_csv_safely("data/functionturn_wide_all_languages.csv", "function-turn data"),
+  turn_all = load_csv_safely("data/turn_wide_all_languages.csv", "turn data")
 )
 
 # Redirect output to log file
-sink(CONFIG$OUTPUT_LOG, split = TRUE)
+sink(file.path(CONFIG$RESULTS_DIR, CONFIG$OUTPUT_LOG), split = TRUE)
 
 # Display data summary
 cat("\n--- DATA SUMMARY ---\n")
@@ -645,7 +645,7 @@ cat("EXPORTING FIGURES (PDF ONLY)\n")
 cat("===============================================================================\n")
 
 # Create figures directory
-fig_dir <- file.path("..", CONFIG$FIGURES_DIR)
+fig_dir <- CONFIG$FIGURES_DIR
 ensure_directory_exists(fig_dir)
 
 # Define plots to save (PDF only)

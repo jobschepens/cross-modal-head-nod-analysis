@@ -247,7 +247,7 @@ cat("===========================================================================
 
 # Prepare form data
 form_counts <- datasets$form_all %>%
-  filter(Label %in% CONFIG$HEAD_NOD_FORMS) %>%
+  filter(Label %in% PUB_CONFIG$HEAD_NOD_FORMS) %>%
   group_by(language, Label) %>%
   summarise(n = n(), .groups = "drop") %>%
   add_normalized_counts(freq_interaction_lengths) %>%
@@ -269,7 +269,7 @@ form_counts <- datasets$form_all %>%
 # Create Figure 1
 figure1 <- ggplot(form_counts, aes(x = Label, y = norm_n, fill = language_clean)) +
   geom_bar(stat = "identity", position = "dodge", alpha = 0.8) +
-  scale_fill_manual(values = CONFIG$LANGUAGE_COLORS, name = "Language") +
+  scale_fill_manual(values = PUB_CONFIG$LANGUAGE_COLORS, name = "Language") +
   labs(
     title = "Figure 1: Distribution of Head Nod Forms Across Languages",
     subtitle = "Normalized frequency per minute of interaction",
@@ -291,7 +291,7 @@ cat("===========================================================================
 
 # Prepare function data
 function_counts <- datasets$function_all %>%
-  filter(Label %in% CONFIG$HEAD_NOD_FUNCTIONS) %>%
+  filter(Label %in% PUB_CONFIG$HEAD_NOD_FUNCTIONS) %>%
   group_by(language, Label) %>%
   summarise(n = n(), .groups = "drop") %>%
   add_normalized_counts(freq_interaction_lengths) %>%
@@ -313,7 +313,7 @@ function_counts <- datasets$function_all %>%
 # Create Figure 2
 figure2 <- ggplot(function_counts, aes(x = Label, y = norm_n, fill = language_clean)) +
   geom_bar(stat = "identity", position = "dodge", alpha = 0.8) +
-  scale_fill_manual(values = CONFIG$LANGUAGE_COLORS, name = "Language") +
+  scale_fill_manual(values = PUB_CONFIG$LANGUAGE_COLORS, name = "Language") +
   labs(
     title = "Figure 2: Distribution of Head Nod Functions Across Languages",
     subtitle = "Normalized frequency per minute of interaction",
@@ -335,7 +335,7 @@ cat("===========================================================================
 # Prepare kinematic data
 kinematic_data <- datasets$function_all %>%
   filter(Label %in% c("affirmation", "feedback")) %>%
-  select(language, Label, all_of(CONFIG$KINEMATIC_VARS)) %>%
+  select(language, Label, all_of(PUB_CONFIG$KINEMATIC_VARS)) %>%
   filter(complete.cases(.)) %>%
   mutate(
     language_clean = case_when(
@@ -361,10 +361,10 @@ kinematic_data <- datasets$function_all %>%
 # Create individual plots for each kinematic variable
 kinematic_plots <- list()
 
-for (var in CONFIG$KINEMATIC_VARS) {
+for (var in PUB_CONFIG$KINEMATIC_VARS) {
   kinematic_plots[[var]] <- ggplot(kinematic_data, aes(x = language_clean, y = .data[[var]], fill = Label)) +
     geom_boxplot(alpha = 0.7, outlier.size = 0.5) +
-    scale_fill_manual(values = CONFIG$FUNCTION_COLORS, name = "Function") +
+    scale_fill_manual(values = PUB_CONFIG$FUNCTION_COLORS, name = "Function") +
     labs(
       title = str_to_title(var),
       x = "Language",
@@ -385,8 +385,8 @@ figure3 <- wrap_plots(kinematic_plots, ncol = 3) +
     theme = theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5))
   )
 
-save_publication_figure(figure3, "Figure3_kinematic_properties_comparison.pdf", 
-                       width = CONFIG$WIDE_FIGURE_WIDTH, height = CONFIG$FIGURE_HEIGHT)
+save_publication_figure(figure3, "Figure3_kinematic_properties_comparison.pdf",
+                       width = PUB_CONFIG$WIDE_FIGURE_WIDTH, height = PUB_CONFIG$FIGURE_HEIGHT)
 
 # ===============================================================================
 # FIGURE 4: TURN-TAKING PATTERNS
@@ -397,7 +397,7 @@ cat("CREATING FIGURE 4: TURN-TAKING PATTERNS\n")
 cat("===============================================================================\n")
 
 # Prepare turn-taking data
-turn_labels <- c(CONFIG$AFFIRM_LABELS, CONFIG$FEEDB_LABELS)
+turn_labels <- c(PUB_CONFIG$AFFIRM_LABELS, PUB_CONFIG$FEEDB_LABELS)
 turn_counts <- datasets$functionturn_all %>%
   filter(Label %in% turn_labels) %>%
   group_by(language, Label) %>%
@@ -412,8 +412,8 @@ turn_counts <- datasets$functionturn_all %>%
       TRUE ~ language
     ),
     function_type = case_when(
-      Label %in% CONFIG$AFFIRM_LABELS ~ "Affirmation",
-      Label %in% CONFIG$FEEDB_LABELS ~ "Feedback",
+      Label %in% PUB_CONFIG$AFFIRM_LABELS ~ "Affirmation",
+      Label %in% PUB_CONFIG$FEEDB_LABELS ~ "Feedback",
       TRUE ~ "Other"
     ),
     turn_position = case_when(
@@ -439,8 +439,8 @@ figure4 <- ggplot(turn_counts, aes(x = turn_position, y = norm_n, fill = functio
   theme_publication() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-save_publication_figure(figure4, "Figure4_turn_taking_patterns.pdf", 
-                       width = CONFIG$WIDE_FIGURE_WIDTH, height = CONFIG$FIGURE_HEIGHT)
+save_publication_figure(figure4, "Figure4_turn_taking_patterns.pdf",
+                        width = PUB_CONFIG$WIDE_FIGURE_WIDTH, height = PUB_CONFIG$FIGURE_HEIGHT)
 
 # ===============================================================================
 # FIGURE 5: CROSS-MODAL COMPARISON
@@ -464,7 +464,7 @@ figure5 <- ggplot(modal_comparison, aes(x = Label, y = mean_freq, fill = modalit
   geom_bar(stat = "identity", position = "dodge", alpha = 0.8) +
   geom_errorbar(aes(ymin = mean_freq - se_freq, ymax = mean_freq + se_freq),
                 position = position_dodge(width = 0.9), width = 0.2) +
-  scale_fill_manual(values = CONFIG$MODALITY_COLORS, name = "Modality") +
+  scale_fill_manual(values = PUB_CONFIG$MODALITY_COLORS, name = "Modality") +
   labs(
     title = "Figure 5: Cross-modal Comparison of Head Nod Functions",
     subtitle = "Mean frequency with standard error across signed and spoken languages",
@@ -487,7 +487,7 @@ cat("===========================================================================
 if (exists("freq_normalization")) {
   supp_figure <- ggplot(freq_normalization, aes(x = short_lang, y = total_minutes, fill = short_lang)) +
     geom_bar(stat = "identity", alpha = 0.8) +
-    scale_fill_manual(values = CONFIG$LANGUAGE_COLORS, name = "Language") +
+    scale_fill_manual(values = PUB_CONFIG$LANGUAGE_COLORS, name = "Language") +
     labs(
       title = "Supplementary Figure: Interaction Lengths by Language",
       subtitle = "Total annotation time used for frequency normalization",
@@ -512,28 +512,28 @@ cat("===========================================================================
 panel_a <- ggplot(form_counts %>% filter(Label %in% c("sn", "hnn", "ln")), 
                   aes(x = Label, y = norm_n, fill = modality)) +
   geom_bar(stat = "summary", fun = "mean", position = "dodge", alpha = 0.8) +
-  scale_fill_manual(values = CONFIG$MODALITY_COLORS, name = "Modality") +
+  scale_fill_manual(values = PUB_CONFIG$MODALITY_COLORS, name = "Modality") +
   labs(title = "A) Head Nod Forms", x = "Form", y = "Frequency (per min)") +
   theme_publication() +
   theme(legend.position = "none", axis.title = element_text(size = 10))
 
 panel_b <- ggplot(function_counts, aes(x = Label, y = norm_n, fill = modality)) +
   geom_bar(stat = "summary", fun = "mean", position = "dodge", alpha = 0.8) +
-  scale_fill_manual(values = CONFIG$MODALITY_COLORS, name = "Modality") +
+  scale_fill_manual(values = PUB_CONFIG$MODALITY_COLORS, name = "Modality") +
   labs(title = "B) Head Nod Functions", x = "Function", y = "Frequency (per min)") +
   theme_publication() +
   theme(legend.position = "none", axis.title = element_text(size = 10))
 
 panel_c <- ggplot(kinematic_data, aes(x = Label, y = `length (seconds)`, fill = modality)) +
   geom_boxplot(alpha = 0.7) +
-  scale_fill_manual(values = CONFIG$MODALITY_COLORS, name = "Modality") +
+  scale_fill_manual(values = PUB_CONFIG$MODALITY_COLORS, name = "Modality") +
   labs(title = "C) Duration Comparison", x = "Function", y = "Duration (s)") +
   theme_publication() +
   theme(legend.position = "none", axis.title = element_text(size = 10))
 
 panel_d <- ggplot(modal_comparison, aes(x = Label, y = mean_freq, fill = modality)) +
   geom_bar(stat = "identity", position = "dodge", alpha = 0.8) +
-  scale_fill_manual(values = CONFIG$MODALITY_COLORS, name = "Modality") +
+  scale_fill_manual(values = PUB_CONFIG$MODALITY_COLORS, name = "Modality") +
   labs(title = "D) Cross-modal Summary", x = "Function", y = "Mean Frequency") +
   theme_publication() +
   theme(axis.title = element_text(size = 10))
@@ -546,8 +546,8 @@ summary_figure <- (panel_a | panel_b) / (panel_c | panel_d) +
     theme = theme(plot.title = element_text(size = 16, face = "bold", hjust = 0.5))
   )
 
-save_publication_figure(summary_figure, "SummaryFigure_comprehensive_analysis.pdf", 
-                       width = CONFIG$WIDE_FIGURE_WIDTH, height = CONFIG$MULTI_PANEL_HEIGHT)
+save_publication_figure(summary_figure, "SummaryFigure_comprehensive_analysis.pdf",
+                        width = PUB_CONFIG$WIDE_FIGURE_WIDTH, height = PUB_CONFIG$MULTI_PANEL_HEIGHT)
 
 # ===============================================================================
 # PUBLICATION FIGURES SUMMARY
@@ -574,9 +574,9 @@ cat("  - Professional layout and spacing\n")
 cat("  - Clear legends and annotations\n\n")
 
 cat("✓ FIGURE SPECIFICATIONS\n")
-cat(sprintf("  - Standard figures: %d x %d inches\n", CONFIG$FIGURE_WIDTH, CONFIG$FIGURE_HEIGHT))
-cat(sprintf("  - Wide figures: %d x %d inches\n", CONFIG$WIDE_FIGURE_WIDTH, CONFIG$FIGURE_HEIGHT))
-cat(sprintf("  - Multi-panel figures: %d x %d inches\n", CONFIG$WIDE_FIGURE_WIDTH, CONFIG$MULTI_PANEL_HEIGHT))
+cat(sprintf("  - Standard figures: %d x %d inches\n", PUB_CONFIG$FIGURE_WIDTH, PUB_CONFIG$FIGURE_HEIGHT))
+cat(sprintf("  - Wide figures: %d x %d inches\n", PUB_CONFIG$WIDE_FIGURE_WIDTH, PUB_CONFIG$FIGURE_HEIGHT))
+cat(sprintf("  - Multi-panel figures: %d x %d inches\n", PUB_CONFIG$WIDE_FIGURE_WIDTH, PUB_CONFIG$MULTI_PANEL_HEIGHT))
 cat(sprintf("  - Resolution: %d DPI\n", PUB_CONFIG$DPI))
 cat("  - Format: PDF (vector graphics)\n\n")
 

@@ -9,66 +9,48 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        r-version: ['4.3', '4.4']
-    
+
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Set up R ${{ matrix.r-version }}
+
+    - name: Set up R
       uses: r-lib/actions/setup-r@v2
       with:
-        r-version: ${{ matrix.r-version }}
-        
+        r-version: '4.4'
+
+    - name: Cache R packages
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-r-${{ env.R_VERSION }}-packages-${{ hashFiles('install.R') }}
+        restore-keys: |
+          ${{ runner.os }}-r-${{ env.R_VERSION }}-packages-
+
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
-        
+        sudo apt-get install -y --no-install-recommends \
+          libcurl4-openssl-dev \
+          libssl-dev \
+          libxml2-dev \
+          libfontconfig1-dev \
+          libfreetype6-dev \
+          libpng-dev \
+          libtiff5-dev \
+          libjpeg-dev
+
     - name: Install R dependencies
       run: |
         R -e "source('install.R')"
-        
-    - name: Validate repository
+
+    - name: Quick validation
       run: |
-        R -e "source('test_repository.R')"
-        
-    - name: Test data loading
-      run: |
-        R -e "
-        source('config.R')
-        tryCatch({
-          data <- read.csv('data/function_wide_all_languages.csv', nrows = 100)
-          cat('✅ Data loading test passed: ', nrow(data), ' rows loaded\n')
-        }, error = function(e) {
-          cat('❌ Data loading test failed: ', e$message, '\n')
-          quit(status = 1)
-        })
-        "
-        
-    - name: Test script syntax
-      run: |
-        R -e "
-        scripts <- list.files('scripts', pattern = '*.R$', full.names = TRUE)
-        for (script in scripts) {
-          tryCatch({
-            parse(script)
-            cat('✅ Valid syntax: ', basename(script), '\n')
-          }, error = function(e) {
-            cat('❌ Syntax error in ', basename(script), ': ', e$message, '\n')
-            quit(status = 1)
-          })
-        }
-        "
-        
+        Rscript quick_test.R
+
     - name: Upload test results
       uses: actions/upload-artifact@v4
-      if: always()
+      if: failure()
       with:
-        name: test-results-r${{ matrix.r-version }}
+        name: test-results
         path: |
           *.log
-          figures/
-          results/

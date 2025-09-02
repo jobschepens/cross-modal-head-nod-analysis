@@ -54,6 +54,7 @@ CONFIG <- list(
   # === PATH CONFIGURATION ===
   REPO_ROOT = REPO_ROOT,
   BASE_DIR = REPO_ROOT,  # Alias for compatibility with test scripts
+  OUTPUT_DIR = REPO_ROOT,  # For script compatibility
   DATA_DIR = file.path(REPO_ROOT, "data"),
   SCRIPTS_DIR = file.path(REPO_ROOT, "scripts"),
   FIGURES_DIR = file.path(REPO_ROOT, "figures"),
