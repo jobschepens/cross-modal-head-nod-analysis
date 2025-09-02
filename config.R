@@ -106,11 +106,11 @@ ensure_directories <- function() {
     CONFIG$FIGURES_DIR,
     CONFIG$RESULTS_DIR
   )
-  
+
   for (dir in dirs_to_create) {
     if (!dir.exists(dir)) {
       dir.create(dir, recursive = TRUE)
-      if (CONFIG$VERBOSE) {
+      if (!is.null(CONFIG$VERBOSE) && CONFIG$VERBOSE) {
         cat("Created directory:", dir, "\n")
       }
     }
@@ -142,7 +142,7 @@ check_data_files <- function() {
     }
     stop("Please ensure all data files are present before running analysis.")
   } else {
-    if (CONFIG$VERBOSE) {
+    if (!is.null(CONFIG$VERBOSE) && CONFIG$VERBOSE) {
       cat("✅ All data files found\n")
     }
   }
@@ -151,7 +151,7 @@ check_data_files <- function() {
 # Function to set working directory to repository root
 set_repo_working_directory <- function() {
   setwd(CONFIG$REPO_ROOT)
-  if (CONFIG$VERBOSE) {
+  if (!is.null(CONFIG$VERBOSE) && CONFIG$VERBOSE) {
     cat("Working directory set to:", getwd(), "\n")
   }
 }
@@ -187,8 +187,8 @@ install_required_packages <- function() {
     library(ggplot2)
     library(readxl)
   })
-  
-  if (CONFIG$VERBOSE) {
+
+  if (!is.null(CONFIG$VERBOSE) && CONFIG$VERBOSE) {
     cat("✅ Package setup complete\n")
   }
 }
@@ -228,7 +228,7 @@ initialize_analysis <- function() {
 assign("CONFIG", CONFIG, envir = .GlobalEnv)
 
 # Print configuration summary if verbose
-if (CONFIG$VERBOSE && interactive()) {
+if (!is.null(CONFIG$VERBOSE) && CONFIG$VERBOSE && interactive()) {
   cat("\n=== CONFIGURATION SUMMARY ===\n")
   cat("Repository root:", CONFIG$REPO_ROOT, "\n")
   cat("Data directory:", CONFIG$DATA_DIR, "\n")

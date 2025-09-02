@@ -20,6 +20,7 @@ install.packages("broom.mixed")
 install.packages("car")
 install.packages("emmeans")
 install.packages("effectsize")
+install.packages("effsize")
 install.packages("pwr")
 install.packages("lmerTest")
 install.packages("performance")
@@ -50,6 +51,7 @@ install.packages("gridExtra")
 # Output formatting
 install.packages("knitr")
 install.packages("rmarkdown")
+install.packages("kableExtra")
 
 # Development and testing
 install.packages("devtools")

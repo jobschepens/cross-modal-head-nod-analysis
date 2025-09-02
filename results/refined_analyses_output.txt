@@ -165,7 +165,7 @@ Bootstrap Confidence Intervals:
 3 lnn       3.06   7.04   169
 4 mn        4.65  17.2    600
 5 sn        1.53  25.1   1650
-Error creating estimation plot for : Cannot find directory 'gardner_altman_refined'. 
+Refined estimation plot saved: gardner_altman_refined/Refined_Head_Nod_Forms_.pdf 
 
  ------------------------------------------------------------ 
 ANALYSIS FOR 
@@ -198,7 +198,7 @@ Bootstrap Confidence Intervals:
 3 lnn      1.00   7.14    169
 4 mn       1.11  17.1     600
 5 sn       1.03  25.1    1650
-Error creating estimation plot for : Cannot find directory 'gardner_altman_refined'. 
+Refined estimation plot saved: gardner_altman_refined/Refined_Head_Nod_Forms_.pdf 
 
  ------------------------------------------------------------ 
 ANALYSIS FOR 
@@ -231,7 +231,7 @@ Bootstrap Confidence Intervals:
 3 lnn      1.95   7.21    169
 4 mn       1.71  17.1     600
 5 sn       1.51  25.1    1650
-Error creating estimation plot for : Cannot find directory 'gardner_altman_refined'. 
+Refined estimation plot saved: gardner_altman_refined/Refined_Head_Nod_Forms_.pdf 
 
  ------------------------------------------------------------ 
 POWER ANALYSIS
@@ -310,7 +310,93 @@ Outlier removal for Duration :
   After outlier removal: 3300 
   Outliers removed: 55 
 
-Error loading or analyzing functionturn data: Cannot find directory 'gardner_altman_refined'. 
+Refined estimation plot saved: gardner_altman_refined/Function_Turn_Duration.pdf 
+
+------------------------------------------------------------
+ANALYSIS FOR Amplitude 
+------------------------------------------------------------
+
+ANOVA Results:
+                 Df  Sum Sq Mean Sq F value Pr(>F)
+Label             5      32     6.4   0.008  1.000
+modality          1       3     2.7   0.003  0.953
+Label:modality    3       6     2.0   0.003  1.000
+Residuals      3345 2627618   785.5               
+
+Effect Sizes (Eta-squared):
+# Effect Size for ANOVA (Type I)
+
+Parameter      | Eta2 (partial) |       95% CI
+----------------------------------------------
+Label          |       1.22e-05 | [0.00, 1.00]
+modality       |       1.02e-06 | [0.00, 1.00]
+Label:modality |       2.28e-06 | [0.00, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].
+Bootstrap Confidence Intervals:
+# A tibble: 6 × 4
+  Label                           mean_val sd_val     n
+  <chr>                              <dbl>  <dbl> <int>
+1 affirm PR                          0.615   2.28    63
+2 affirm mid-turn                    0.461   1.64    46
+3 affirmation turn_initialization    1.03    8.09    79
+4 feedb PR                           1.07   29.7   2956
+5 feedb mid-turn                     0.869   6.54    90
+6 feedback turn_initialization       1.03   10.4    121
+Outlier removal for Amplitude :
+  Original observations: 3355 
+  After outlier removal: 3286 
+  Outliers removed: 69 
+
+Refined estimation plot saved: gardner_altman_refined/Function_Turn_Amplitude.pdf 
+
+------------------------------------------------------------
+ANALYSIS FOR Velocity 
+------------------------------------------------------------
+
+ANOVA Results:
+                 Df  Sum Sq Mean Sq F value Pr(>F)
+Label             5      33     6.6   0.008  1.000
+modality          1       7     6.6   0.008  0.927
+Label:modality    3      23     7.8   0.010  0.999
+Residuals      3345 2626519   785.2               
+
+Effect Sizes (Eta-squared):
+# Effect Size for ANOVA (Type I)
+
+Parameter      | Eta2 (partial) |       95% CI
+----------------------------------------------
+Label          |       1.25e-05 | [0.00, 1.00]
+modality       |       2.51e-06 | [0.00, 1.00]
+Label:modality |       8.88e-06 | [0.00, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].
+Bootstrap Confidence Intervals:
+# A tibble: 6 × 4
+  Label                           mean_val sd_val     n
+  <chr>                              <dbl>  <dbl> <int>
+1 affirm PR                          0.972   2.21    63
+2 affirm mid-turn                    0.979   1.64    46
+3 affirmation turn_initialization    1.55    8.06    79
+4 feedb PR                           1.46   29.7   2956
+5 feedb mid-turn                     1.66    6.60    90
+6 feedback turn_initialization       1.30   10.3    121
+Outlier removal for Velocity :
+  Original observations: 3355 
+  After outlier removal: 3284 
+  Outliers removed: 71 
+
+Refined estimation plot saved: gardner_altman_refined/Function_Turn_Velocity.pdf 
+
+
+===============================================================================
+FUNCTION TYPE ANALYSIS (Affirmation vs Feedback)
+===============================================================================
+
+ ================================================================================ 
+STATISTICAL ANALYSIS: Function Turn 
+================================================================================ 
+Error loading or analyzing functionturn data: In argument: `!is.na(length..seconds.)`. 
 
 ===============================================================================
 COMPREHENSIVE POWER ANALYSIS

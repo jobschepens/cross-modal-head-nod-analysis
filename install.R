@@ -54,7 +54,8 @@ basic_packages <- c(
 
 # Phase 3: Statistical packages (beyond what install2.r provides)
 stats_packages <- c(
-  "car", "rstatix", "broom", "emmeans", "effectsize", "lmerTest"
+  "car", "rstatix", "broom", "emmeans", "effectsize", "lmerTest",
+  "ggeffects", "broom.mixed", "effsize", "kableExtra"
 )
 
 # Phase 4: Visualization packages (beyond tidyverse basics)
