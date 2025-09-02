@@ -3,6 +3,9 @@
 
 FROM rocker/binder:latest
 
+# Ensure we're running as root for system package installation
+USER root
+
 # Install system dependencies for R packages (including lme4 dependencies)
 RUN apt-get update && apt-get install -y \
     cmake \
@@ -19,28 +22,27 @@ RUN apt-get update && apt-get install -y \
     libproj-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Install R packages as binary packages (avoiding compilation issues)
+RUN apt-get update && apt-get install -y \
+    r-cran-lme4 \
+    r-cran-boot \
+    r-cran-car \
+    r-cran-rstatix \
+    r-cran-broom \
+    r-cran-viridis \
+    r-cran-scales \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy repository contents
 COPY --chown=${NB_USER}:${NB_USER} . ${HOME}
 
-# Use install2.r for critical packages (more reliable than install.packages)
-# This leverages littler for better dependency resolution
-RUN install2.r --deps TRUE --error \
-    lme4 \
-    boot \
-    ggplot2 \
-    dplyr \
-    tidyr \
-    readr \
-    readxl \
-    knitr \
-    rmarkdown
-
 # Install any remaining packages using our proven installation script
+# (This will skip packages already installed via apt)
 RUN R --vanilla -e "source('install.R')"
 
 # Create output directories
 RUN mkdir -p ${HOME}/figures ${HOME}/results
 
-# Set up Binder environment
+# Switch back to the notebook user for Binder
 USER ${NB_USER}
 WORKDIR ${HOME}
