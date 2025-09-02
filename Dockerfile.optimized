@@ -1,4 +1,5 @@
 # Cross-Modal Head Nod Analysis Docker Environment
+# Optimized for reliability and speed
 FROM rocker/tidyverse:latest
 
 # Install system dependencies needed for R packages (including lme4 dependencies)

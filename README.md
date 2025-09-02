@@ -26,12 +26,19 @@ Rscript install.R        # Install required packages
 Rscript test_repository.R  # Validate everything works
 ```
 
-### Option 3: Docker Container
+### Option 3: Docker Container (Optimized)
 ```bash
 git clone https://github.com/jobschepens/cross-modal-head-nod-analysis.git
 cd cross-modal-head-nod-analysis
 docker-compose up head-nod-analysis
 ```
+
+**Docker Optimization Features:**
+- ✅ **Hybrid package installation**: Uses `install2.r` (littler) for critical packages, ensuring reliable dependency resolution
+- ✅ **Binary packages**: Leverages `rocker/tidyverse:latest` for pre-compiled CRAN binaries (no source compilation)
+- ✅ **Fast builds**: Critical packages (lme4, tidyverse components) installed via optimized `install2.r`
+- ✅ **Fallback support**: Custom `install.R` handles any additional packages not covered by `install2.r`
+- ✅ **Reproducible environment**: Consistent package versions across different systems
 
 ## Overview
 

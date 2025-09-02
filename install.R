@@ -29,37 +29,47 @@ if (length(getOption("repos")) == 1 && getOption("repos") == "@CRAN@") {
 # 1. PACKAGE INSTALLATION
 # ===============================================================================
 
-cat("1. Installing required R packages...\n")
+# ===============================================================================
+# 1. PACKAGE INSTALLATION
+# ===============================================================================
 
-# Define packages in installation order (dependencies first)
+cat("1. Checking for packages installed by install2.r and installing remaining packages...\n")
+
+# Packages that should already be installed by install2.r in Docker
+# (These are the critical packages installed by install2.r in Dockerfile)
+docker_installed_packages <- c(
+  "lme4", "boot", "ggplot2", "dplyr", "tidyr", "readr", "readxl", "knitr", "rmarkdown"
+)
+
+# Additional packages that might be needed for full analysis
 # Phase 1: Core system packages that others depend on
 core_packages <- c(
   "Rcpp", "RcppArmadillo", "Matrix", "lattice", "nlme"
 )
 
-# Phase 2: Core tidyverse and basic packages
+# Phase 2: Additional basic packages
 basic_packages <- c(
-  "boot", "reshape2", "readxl", "knitr"
+  "reshape2"
 )
 
-# Phase 3: Statistical packages (need core packages first)
+# Phase 3: Statistical packages (beyond what install2.r provides)
 stats_packages <- c(
-  "lme4", "car", "rstatix", "broom", "emmeans", "effectsize", "lmerTest"
+  "car", "rstatix", "broom", "emmeans", "effectsize", "lmerTest"
 )
 
-# Phase 4: Visualization and tidyverse (can be heavy)
+# Phase 4: Visualization packages (beyond tidyverse basics)
 viz_packages <- c(
-  "viridis", "scales", "gridExtra", "patchwork", "tidyverse"
+  "viridis", "scales", "gridExtra", "patchwork"
 )
 
-# All packages combined for final check
-required_packages <- c(core_packages, basic_packages, stats_packages, viz_packages)
+# Packages to check/install (excluding those already handled by install2.r)
+additional_packages <- c(core_packages, basic_packages, stats_packages, viz_packages)
 
-# Function to install packages with progress tracking and optimized approach
-install_packages_with_progress <- function() {
-  # Combine all packages for more efficient installation
-  all_packages <- c(core_packages, basic_packages, stats_packages, viz_packages)
+# All packages that should be available (for verification)
+all_required_packages <- c(docker_installed_packages, additional_packages)
 
+# Function to install additional packages with progress tracking
+install_additional_packages <- function() {
   failed_packages <- c()
 
   # Check which packages are already installed
@@ -67,16 +77,32 @@ install_packages_with_progress <- function() {
   to_install <- c()
 
   cat("Checking package availability...\n")
-  for (pkg in all_packages) {
+  
+  # First check docker-installed packages (should already be there)
+  cat("Docker-installed packages:\n")
+  for (pkg in docker_installed_packages) {
+    if (requireNamespace(pkg, quietly = TRUE)) {
+      already_installed <- c(already_installed, pkg)
+      cat(sprintf("  ✅ Available: %s\n", pkg))
+    } else {
+      cat(sprintf("  ❌ Missing (should be installed by install2.r): %s\n", pkg))
+      to_install <- c(to_install, pkg)
+    }
+  }
+  
+  # Then check additional packages
+  cat("Additional packages:\n")
+  for (pkg in additional_packages) {
     if (requireNamespace(pkg, quietly = TRUE)) {
       already_installed <- c(already_installed, pkg)
       cat(sprintf("  ✅ Already installed: %s\n", pkg))
     } else {
       to_install <- c(to_install, pkg)
+      cat(sprintf("  📥 Need to install: %s\n", pkg))
     }
   }
 
-  cat(sprintf("\n📦 %d/%d packages already available\n", length(already_installed), length(all_packages)))
+  cat(sprintf("\n📦 %d/%d packages already available\n", length(already_installed), length(all_required_packages)))
 
   if (length(to_install) > 0) {
     cat(sprintf("📥 Installing %d missing packages...\n", length(to_install)))
@@ -103,12 +129,12 @@ install_packages_with_progress <- function() {
   return(failed_packages)
 }
 
-# Install packages with phased approach
-failed_packages <- install_packages_with_progress()
+# Install packages with optimized approach
+failed_packages <- install_additional_packages()
 
 # Report results
 cat("\nPackage installation summary:\n")
-total_packages <- length(required_packages)
+total_packages <- length(all_required_packages)
 successful_packages <- total_packages - length(failed_packages)
 cat(sprintf("  ✅ Successfully available: %d/%d packages\n", 
            successful_packages, total_packages))
