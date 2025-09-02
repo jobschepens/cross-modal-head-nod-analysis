@@ -72,6 +72,8 @@ CONFIG <- list(
   HEAD_NOD_FUNCTIONS = c("affirmation", "feedback", "other"),
   KINEMATIC_VARS = c("length..seconds.", "extremes.amplitude", "velocity"),
   LANGUAGES = c("DGS_2.0_2412", "GER_2412", "RSL_2507", "RUS_2503"),
+  TIERS = c("form", "function", "turn", "functionturn"),
+  TASK3_CATEGORIES = c("length (seconds)", "extremes amplitude", "velocity"),
   
   # === FUNCTION-TURN LABELS ===
   AFFIRM_LABELS = c("affirm PR", "affirm mid-turn", "affirmation turn_initialization"),

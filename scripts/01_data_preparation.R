@@ -178,8 +178,8 @@ for (tier in CONFIG$TIERS) {
   cat(paste(rep("-", 50), collapse=""), "\n")
   
   # Define output files
-  output_long_file <- file.path(CONFIG$INPUT_DIR, sprintf("%s_long_all_languages.csv", tier))
-  output_wide_file <- file.path(CONFIG$INPUT_DIR, sprintf("%s_wide_all_languages.csv", tier))
+  output_long_file <- file.path(CONFIG$DATA_DIR, sprintf("%s_long_all_languages.csv", tier))
+  output_wide_file <- file.path(CONFIG$DATA_DIR, sprintf("%s_wide_all_languages.csv", tier))
   
   # Storage for all languages
   all_long <- list()
@@ -188,7 +188,7 @@ for (tier in CONFIG$TIERS) {
   # Process each language
   for (i in seq_along(CONFIG$LANGUAGES)) {
     language <- CONFIG$LANGUAGES[i]
-    input_file <- file.path(CONFIG$INPUT_DIR, sprintf("summary.all_files.%s.%s.csv", tier, language))
+    input_file <- file.path(CONFIG$DATA_DIR, sprintf("summary.all_files.%s.%s.csv", tier, language))
     
     cat(sprintf("  Processing %s...\n", language))
     
@@ -242,8 +242,8 @@ cat("===========================================================================
 # Check which files were created
 created_files <- list()
 for (tier in CONFIG$TIERS) {
-  long_file <- file.path(CONFIG$INPUT_DIR, sprintf("%s_long_all_languages.csv", tier))
-  wide_file <- file.path(CONFIG$INPUT_DIR, sprintf("%s_wide_all_languages.csv", tier))
+  long_file <- file.path(CONFIG$DATA_DIR, sprintf("%s_long_all_languages.csv", tier))
+  wide_file <- file.path(CONFIG$DATA_DIR, sprintf("%s_wide_all_languages.csv", tier))
   
   if (file.exists(long_file) && file.exists(wide_file)) {
     created_files[[tier]] <- list(long = long_file, wide = wide_file)

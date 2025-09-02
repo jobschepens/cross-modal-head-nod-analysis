@@ -266,7 +266,7 @@ datasets <- list(
 )
 
 # Redirect output to log file
-sink(file.path(CONFIG$RESULTS_DIR, CONFIG$OUTPUT_LOG), split = TRUE)
+sink(file.path(CONFIG$RESULTS_DIR, SCRIPT_CONFIG$OUTPUT_LOG), split = TRUE)
 
 # Display data summary
 cat("\n--- DATA SUMMARY ---\n")
@@ -756,4 +756,4 @@ cat("===========================================================================
 # End output redirection
 sink()
 
-cat("Analysis complete. Check", CONFIG$OUTPUT_LOG, "for detailed results.\n")
+cat("Analysis complete. Check", SCRIPT_CONFIG$OUTPUT_LOG, "for detailed results.\n")

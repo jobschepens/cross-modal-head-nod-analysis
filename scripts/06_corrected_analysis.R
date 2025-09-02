@@ -39,16 +39,17 @@ CONFIG <- list(
   # Directories
   DATA_DIR = "../data",
   FIGURES_DIR = "figures",
-  
+
   # File paths
   NORMALIZATION_FILE = "../data/norm.xlsx",
   OUTPUT_LOG = "corrected_analysis_output.txt",
-  
+
   # CORRECTED: Analysis parameters with proper labels
   HEAD_NOD_FORMS = c("sn", "snn", "hnn", "mn", "ln", "lnn"),  # Include both snn and hnn
   HEAD_NOD_FUNCTIONS = c("affirmation", "feedback", "other"),
   PHONETIC_PROPERTIES = c("length (seconds)", "extremes amplitude", "velocity"),
-  
+  KINEMATIC_VARS = c("length (seconds)", "extremes amplitude", "velocity"),  # Alias for compatibility
+
   # Plot dimensions
   PLOT_WIDTH = 8,
   PLOT_HEIGHT = 6,

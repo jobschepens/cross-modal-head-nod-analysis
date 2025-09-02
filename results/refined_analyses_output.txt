@@ -10,7 +10,232 @@ REFINED HEAD NOD FORMS ANALYSIS
 Core head nod forms selected:
 FORMS: sn, hnn, mn, ln, lnn 
 
-Error loading or analyzing form data: cannot open the connection 
+Form data loaded. Shape: 12984 x 7 
+All unique labels: all annotations, sn, ln, mn, lnn, snn, hnn, mn mn 
+Filtered to core forms: 2817 observations
+
+ ================================================================================ 
+STATISTICAL ANALYSIS: Head Nod Forms 
+================================================================================ 
+Total observations: 2817 
+
+DESCRIPTIVE STATISTICS
+-------------------------------------------------- 
+# A tibble: 17 × 9
+   Label language_clean     n duration_mean duration_sd amplitude_mean
+   <chr> <chr>          <int>         <dbl>       <dbl>          <dbl>
+ 1 hnn   German             8          1.62        1.11          0.214
+ 2 ln    DGS               73          1.78        7.65          0.996
+ 3 ln    German            84          1.86        8.31          1.06 
+ 4 ln    RSL              199          1.89       13.6           1.06 
+ 5 ln    Russian           34          1.66        4.49          0.866
+ 6 lnn   DGS               36          2.73        4.63          0.936
+ 7 lnn   German            29          2.42        3.84          1.06 
+ 8 lnn   RSL               93          3.47        8.79          1.07 
+ 9 lnn   Russian           11          2.41        1.25          0.451
+10 mn    DGS               91          5.16        9.54          1.09 
+11 mn    German            83          3.06        8.18          1.14 
+12 mn    RSL              410          4.97       19.9           1.13 
+13 mn    Russian           16          1.76        2.11          0.630
+14 sn    DGS              230          1.56       14.7           1.03 
+15 sn    German           359          1.58       18.5           1.02 
+16 sn    RSL              929          1.49       30.2           1.04 
+17 sn    Russian          132          1.56       10.8           0.979
+# ℹ 3 more variables: amplitude_sd <dbl>, velocity_mean <dbl>,
+#   velocity_sd <dbl>
+
+ ------------------------------------------------------------ 
+ANALYSIS FOR 
+------------------------------------------------------------ 
+
+ANOVA Results:
+                 Df  Sum Sq Mean Sq F value Pr(>F)  
+Label             4    4487  1121.7   2.484 0.0417 *
+modality          1      62    62.2   0.138 0.7104  
+Label:modality    3     345   115.1   0.255 0.8578  
+Residuals      2808 1267762   451.5                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Effect Sizes (Eta-squared):
+# Effect Size for ANOVA (Type I)
+
+Parameter      | Eta2 (partial) |       95% CI
+----------------------------------------------
+Label          |       3.53e-03 | [0.00, 1.00]
+modality       |       4.91e-05 | [0.00, 1.00]
+Label:modality |       2.72e-04 | [0.00, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].
+Post-hoc Tests (Tukey HSD):
+  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = as.formula(formula_str), data = analysis_data)
+
+$Label
+               diff         lwr        upr     p adj
+ln-hnn   0.21572032 -20.4988262 20.9302669 0.9999999
+lnn-hnn  1.43743807 -19.5475864 22.4224625 0.9997274
+mn-hnn   3.02777527 -17.6137775 23.6693280 0.9945920
+sn-hnn  -0.09708296 -20.6520360 20.4578701 1.0000000
+lnn-ln   1.22171775  -4.1195142  6.5629497 0.9712127
+mn-ln    2.81205494  -0.9603722  6.5844821 0.2496235
+sn-ln   -0.31280329  -3.5783207  2.9527141 0.9989737
+mn-lnn   1.59033719  -3.4604071  6.6410815 0.9115782
+sn-lnn  -1.53452104  -6.2187942  3.1497522 0.8991463
+sn-mn   -3.12485823  -5.8897928 -0.3599237 0.0175415
+
+$modality
+                    diff       lwr     upr     p adj
+Spoken-Signed -0.3315833 -2.103116 1.43995 0.7136387
+
+$`Label:modality`
+                             diff        lwr         upr     p adj
+ln:Signed-hnn:Signed           NA         NA          NA        NA
+lnn:Signed-hnn:Signed          NA         NA          NA        NA
+mn:Signed-hnn:Signed           NA         NA          NA        NA
+sn:Signed-hnn:Signed           NA         NA          NA        NA
+hnn:Spoken-hnn:Signed          NA         NA          NA        NA
+ln:Spoken-hnn:Signed           NA         NA          NA        NA
+lnn:Spoken-hnn:Signed          NA         NA          NA        NA
+mn:Spoken-hnn:Signed           NA         NA          NA        NA
+sn:Spoken-hnn:Signed           NA         NA          NA        NA
+lnn:Signed-ln:Signed   1.40602027  -5.786114  8.59815423 0.9998254
+mn:Signed-ln:Signed    3.15094816  -1.916057  8.21795302 0.6211192
+sn:Signed-ln:Signed   -0.35092854  -4.883645  4.18178774 0.9999999
+hnn:Spoken-ln:Signed  -0.23223138 -24.365406 23.90094343 1.0000000
+ln:Spoken-ln:Signed   -0.05457043  -7.470605  7.36146398 1.0000000
+lnn:Spoken-ln:Signed   0.55758291 -10.835145 11.95031115 1.0000000
+mn:Spoken-ln:Signed    0.99698288  -6.899793  8.89375843 0.9999958
+sn:Spoken-ln:Signed   -0.27829427  -5.363423  4.80683455 1.0000000
+mn:Signed-lnn:Signed   1.74492789  -4.897417  8.38727314 0.9980942
+sn:Signed-lnn:Signed  -1.75694881  -8.001285  4.48738695 0.9967609
+hnn:Spoken-lnn:Signed -1.63825165 -26.150623 22.87411948 1.0000000
+ln:Spoken-lnn:Signed  -1.46059070 -10.030525  7.10934387 0.9999449
+lnn:Spoken-lnn:Signed -0.84843736 -13.023842 11.32696690 1.0000000
+mn:Spoken-lnn:Signed  -0.40903739  -9.398213  8.58013811 1.0000000
+sn:Spoken-lnn:Signed  -1.68431455  -8.340496  4.97186659 0.9985794
+sn:Signed-mn:Signed   -3.50187670  -7.099025  0.09527167 0.0640220
+hnn:Spoken-mn:Signed  -3.38317954 -27.358252 20.59189264 0.9999891
+ln:Spoken-mn:Signed   -3.20551859 -10.089669  3.67863176 0.9023742
+lnn:Spoken-mn:Signed  -2.59336525 -13.647243  8.46051263 0.9992223
+mn:Spoken-mn:Signed   -2.15396528  -9.553494  5.24556333 0.9958068
+sn:Spoken-mn:Signed   -3.42924244  -7.701536  0.84305141 0.2468137
+hnn:Spoken-sn:Signed   0.11869716 -23.749170 23.98656394 1.0000000
+ln:Spoken-sn:Signed    0.29635811  -6.204604  6.79731993 1.0000000
+lnn:Spoken-sn:Signed   0.90851145  -9.910878 11.72790122 0.9999999
+mn:Spoken-sn:Signed    1.34791142  -5.696519  8.39234201 0.9998540
+sn:Spoken-sn:Signed    0.07263426  -3.549999  3.69526775 1.0000000
+ln:Spoken-hnn:Spoken   0.17766095 -24.401336 24.75665837 1.0000000
+lnn:Spoken-hnn:Spoken  0.78981429 -25.266352 26.84598063 1.0000000
+mn:Spoken-hnn:Spoken   1.22921426 -23.499082 25.95751004 1.0000000
+sn:Spoken-hnn:Spoken  -0.04606290 -24.024972 23.93284623 1.0000000
+lnn:Spoken-ln:Spoken   0.61215334 -11.696837 12.92114373 1.0000000
+mn:Spoken-ln:Spoken    1.05155331  -8.117746 10.22085273 0.9999982
+sn:Spoken-ln:Spoken   -0.22372384  -7.121225  6.67377736 1.0000000
+mn:Spoken-lnn:Spoken   0.43939997 -12.165073 13.04387308 1.0000000
+sn:Spoken-lnn:Spoken  -0.83587718 -11.898075 10.22632030 1.0000000
+sn:Spoken-mn:Spoken   -1.27527716  -8.687228  6.13667404 0.9999403
+
+
+Pairwise Comparisons (emmeans):
+ contrast  estimate   SE   df t.ratio p.value
+ hnn - ln    nonEst   NA   NA      NA      NA
+ hnn - lnn   nonEst   NA   NA      NA      NA
+ hnn - mn    nonEst   NA   NA      NA      NA
+ hnn - sn    nonEst   NA   NA      NA      NA
+ ln - lnn    -1.009 2.25 2808  -0.448  0.9700
+ ln - mn     -2.101 1.65 2808  -1.270  0.5821
+ ln - sn      0.287 1.30 2808   0.220  0.9962
+ lnn - mn    -1.092 2.25 2808  -0.485  0.9624
+ lnn - sn     1.296 2.01 2808   0.646  0.9169
+ mn - sn      2.389 1.30 2808   1.836  0.2566
+
+Results are averaged over the levels of: modality 
+P value adjustment: tukey method for comparing a family of 4 estimates 
+Error in ANOVA for : attempt to select less than one element in OneIndex 
+
+Bootstrap Confidence Intervals:
+# A tibble: 5 × 4
+  Label mean_val sd_val     n
+  <chr>    <dbl>  <dbl> <int>
+1 hnn       1.62   1.11     8
+2 ln        1.84  11.0    390
+3 lnn       3.06   7.04   169
+4 mn        4.65  17.2    600
+5 sn        1.53  25.1   1650
+Error creating estimation plot for : Cannot find directory 'gardner_altman_refined'. 
+
+ ------------------------------------------------------------ 
+ANALYSIS FOR 
+------------------------------------------------------------ 
+
+ANOVA Results:
+                 Df  Sum Sq Mean Sq F value Pr(>F)
+Label             4       9     2.3   0.005  1.000
+modality          1       1     0.9   0.002  0.965
+Label:modality    3       0     0.2   0.000  1.000
+Residuals      2808 1268277   451.7               
+
+Effect Sizes (Eta-squared):
+# Effect Size for ANOVA (Type I)
+
+Parameter      | Eta2 (partial) |       95% CI
+----------------------------------------------
+Label          |       7.17e-06 | [0.00, 1.00]
+modality       |       6.99e-07 | [0.00, 1.00]
+Label:modality |       3.59e-07 | [0.00, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].Error in ANOVA for : attempt to select less than one element in OneIndex 
+
+Bootstrap Confidence Intervals:
+# A tibble: 5 × 4
+  Label mean_val sd_val     n
+  <chr>    <dbl>  <dbl> <int>
+1 hnn      0.214  0.324     8
+2 ln       1.03  11.0     390
+3 lnn      1.00   7.14    169
+4 mn       1.11  17.1     600
+5 sn       1.03  25.1    1650
+Error creating estimation plot for : Cannot find directory 'gardner_altman_refined'. 
+
+ ------------------------------------------------------------ 
+ANALYSIS FOR 
+------------------------------------------------------------ 
+
+ANOVA Results:
+                 Df  Sum Sq Mean Sq F value Pr(>F)
+Label             4      71    17.8   0.039  0.997
+modality          1       7     7.1   0.016  0.900
+Label:modality    3      74    24.6   0.055  0.983
+Residuals      2808 1267311   451.3               
+
+Effect Sizes (Eta-squared):
+# Effect Size for ANOVA (Type I)
+
+Parameter      | Eta2 (partial) |       95% CI
+----------------------------------------------
+Label          |       5.62e-05 | [0.00, 1.00]
+modality       |       5.58e-06 | [0.00, 1.00]
+Label:modality |       5.82e-05 | [0.00, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].Error in ANOVA for : attempt to select less than one element in OneIndex 
+
+Bootstrap Confidence Intervals:
+# A tibble: 5 × 4
+  Label mean_val sd_val     n
+  <chr>    <dbl>  <dbl> <int>
+1 hnn      0.414  0.316     8
+2 ln       1.81  11.0     390
+3 lnn      1.95   7.21    169
+4 mn       1.71  17.1     600
+5 sn       1.51  25.1    1650
+Error creating estimation plot for : Cannot find directory 'gardner_altman_refined'. 
+
+ ------------------------------------------------------------ 
+POWER ANALYSIS
+------------------------------------------------------------ 
 
 ===============================================================================
 REFINED FUNCTION-TURN ANALYSIS
@@ -19,11 +244,89 @@ Key categories selected:
 AFFIRMATION: affirm PR, affirm mid-turn, affirmation turn_initialization 
 FEEDBACK: feedb PR, feedb mid-turn, feedback turn_initialization 
 
-Error loading or analyzing functionturn data: cannot open the connection 
+FunctionTurn data loaded. Shape: 13058 x 7 
+All unique labels: all annotations, affirm PR, affirm TT, affirm mid-turn, affirmation full take-over, affirmation turn_initialization, feedb PR, feedb TT, feedback turn_initialization, other, other end-turn, other turn_initialization, affirmation PR, affirmation TT, affirmation mid-turn, feedb mid-turn, feedback PR, feedback TT, other PR, other TT, other mid-turn, feedback  overlap, feedback overlap overlap, other full take-over full take-over, affirmation take-over attempt, end-turn other, mid-turn other 
+Filtered to 6 specific labels: affirm PR, affirm mid-turn, affirmation turn_initialization, feedb PR, feedb mid-turn, feedback turn_initialization 
+Total observations: 3355 
+
+DESCRIPTIVE STATISTICS
+--------------------------------------------------
+# A tibble: 17 × 9
+   Label           language_clean     n duration_mean duration_sd amplitude_mean
+   <chr>           <chr>          <int>         <dbl>       <dbl>          <dbl>
+ 1 affirm PR       DGS               18          2.08       2.50           0.664
+ 2 affirm PR       GER_2412          19          1.81       2.60           0.710
+ 3 affirm PR       RSL               11          2.17       1.54           0.436
+ 4 affirm PR       RUS_2503          15          1.78       1.92           0.568
+ 5 affirm mid-turn DGS                8          1.24       0.810          0.209
+ 6 affirm mid-turn GER_2412          12          1.17       1.26           0.501
+ 7 affirm mid-turn RSL               17          1.98       2.22           0.655
+ 8 affirm mid-turn RUS_2503           9          1.05       0.593          0.264
+ 9 affirmation tu… DGS               79          2.33       8.00           1.03 
+10 feedb PR        DGS              532          3.50      22.9            1.09 
+11 feedb PR        GER_2412         721          2.71      26.6            1.05 
+12 feedb PR        RSL             1297          3.38      35.8            1.09 
+13 feedb PR        RUS_2503         406          2.80      19.8            1.02 
+14 feedb mid-turn  GER_2412          11          1.53       1.08           0.387
+15 feedb mid-turn  RSL               69          2.54       7.38           1.02 
+16 feedb mid-turn  RUS_2503          10          2.20       1.31           0.353
+17 feedback turn_… DGS              121          2.35      10.4            1.03 
+# ℹ 3 more variables: amplitude_sd <dbl>, velocity_mean <dbl>,
+#   velocity_sd <dbl>
+
+------------------------------------------------------------
+ANALYSIS FOR Duration 
+------------------------------------------------------------
+
+ANOVA Results:
+                 Df  Sum Sq Mean Sq F value Pr(>F)
+Label             5     367    73.5   0.093  0.993
+modality          1     325   325.2   0.413  0.520
+Label:modality    3       2     0.6   0.001  1.000
+Residuals      3345 2631137   786.6               
+
+Effect Sizes (Eta-squared):
+# Effect Size for ANOVA (Type I)
+
+Parameter      | Eta2 (partial) |       95% CI
+----------------------------------------------
+Label          |       1.40e-04 | [0.00, 1.00]
+modality       |       1.24e-04 | [0.00, 1.00]
+Label:modality |       7.33e-07 | [0.00, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].
+Bootstrap Confidence Intervals:
+# A tibble: 6 × 4
+  Label                           mean_val sd_val     n
+  <chr>                              <dbl>  <dbl> <int>
+1 affirm PR                           1.94   2.21    63
+2 affirm mid-turn                     1.46   1.57    46
+3 affirmation turn_initialization     2.33   8.00    79
+4 feedb PR                            3.16  29.7   2956
+5 feedb mid-turn                      2.38   6.48    90
+6 feedback turn_initialization        2.35  10.4    121
+Outlier removal for Duration :
+  Original observations: 3355 
+  After outlier removal: 3300 
+  Outliers removed: 55 
+
+Error loading or analyzing functionturn data: Cannot find directory 'gardner_altman_refined'. 
 
 ===============================================================================
 COMPREHENSIVE POWER ANALYSIS
 ===============================================================================
+Power Analysis Results for Refined Categories:
+
+     Balanced one-way analysis of variance power calculation 
+
+              k = 6
+              n = 23.79864
+              f = 0.3058213
+      sig.level = 0.05
+          power = 0.8
+
+NOTE: n is number in each group
+
 
 ===============================================================================
 REFINED ANALYSIS SUMMARY

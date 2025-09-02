@@ -81,6 +81,7 @@ CONFIG <- list(
   NORMALIZATION_FILE = "data/norm.xlsx",
   FIGURES_DIR = "figures",
   GARDNER_ALTMAN_DIR = "figures",
+  RESULTS_DIR = original_CONFIG$RESULTS_DIR,
   OUTPUT_LOG = "advanced_statistical_analysis_output.txt",
 
   # Variables for analysis

@@ -376,7 +376,7 @@ cat("FORMS:", paste(CONFIG$HEAD_NOD_FORMS, collapse = ", "), "\n\n")
 
 # Load and analyze form data
 tryCatch({
-  form_data <- read.csv(file.path(CONFIG$OUTPUT_DIR, "form_wide_all_languages.csv"))
+  form_data <- read.csv(file.path(CONFIG$DATA_DIR, "form_wide_all_languages.csv"))
   
   cat("Form data loaded. Shape:", nrow(form_data), "x", ncol(form_data), "\n")
   cat("All unique labels:", paste(unique(form_data$Label), collapse = ", "), "\n")
@@ -408,7 +408,7 @@ cat("FEEDBACK:", paste(CONFIG$FEEDB_LABELS, collapse = ", "), "\n\n")
 
 # Load and analyze functionturn data
 tryCatch({
-  functionturn_data <- read.csv(file.path(CONFIG$OUTPUT_DIR, "functionturn_wide_all_languages.csv"))
+  functionturn_data <- read.csv(file.path(CONFIG$DATA_DIR, "functionturn_wide_all_languages.csv"))
   
   cat("FunctionTurn data loaded. Shape:", nrow(functionturn_data), "x", ncol(functionturn_data), "\n")
   cat("All unique labels:", paste(unique(functionturn_data$Label), collapse = ", "), "\n")
@@ -620,4 +620,4 @@ cat("===========================================================================
 # End logging
 sink()
 
-cat("\nRefined analyses complete. Check", CONFIG$OUTPUT_LOG, "for detailed results.\n")
+cat("\nRefined analyses complete. Check", output_log_path, "for detailed results.\n")
