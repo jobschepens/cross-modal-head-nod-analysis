@@ -21,10 +21,10 @@
 
 # Load configuration if not already loaded
 if (!exists("CONFIG")) {
-  # Try different paths for different environments
-  config_paths <- c("../config.R", "config.R", "~/config.R")
+  # Try different paths for flexibility
+  config_paths <- c("../config.R", "config.R")
   config_loaded <- FALSE
-
+  
   for (config_path in config_paths) {
     if (file.exists(config_path)) {
       source(config_path)
@@ -32,14 +32,17 @@ if (!exists("CONFIG")) {
       break
     }
   }
-
+  
   if (!config_loaded) {
-    stop("Could not find config.R file. Please ensure it exists in the repository root.")
+    stop("config.R not found. Please ensure you're running from the repository root or scripts/ directory.")
   }
 }
 
-# Initialize analysis environment
-initialize_analysis()
+# Initialize analysis environment (optional - only if function exists)
+if (exists("initialize_analysis") && is.function(initialize_analysis)) {
+  # Use non-interactive mode for Binder compatibility
+  initialize_analysis(interactive = FALSE, install_packages = FALSE)
+}
 
 # Load required libraries
 suppressPackageStartupMessages({
@@ -58,16 +61,16 @@ cat("===========================================================================
 
 # Script-specific configuration constants
 SCRIPT_CONFIG <- list(
-  # Data files (using relative paths from repository root)
-  FUNCTION_DATA = "data/function_wide_all_languages.csv",
-  FORM_DATA = "data/form_wide_all_languages.csv",
-  FUNCTIONTURN_DATA = "data/functionturn_wide_all_languages.csv",
-  TURN_DATA = "data/turn_wide_all_languages.csv",
-  NORMALIZATION_FILE = "data/norm.xlsx",
+  # Data files (using CONFIG paths for consistency)
+  FUNCTION_DATA = CONFIG$FUNCTION_DATA,
+  FORM_DATA = CONFIG$FORM_DATA,
+  FUNCTIONTURN_DATA = CONFIG$FUNCTIONTURN_DATA,
+  TURN_DATA = CONFIG$TURN_DATA,
+  NORMALIZATION_FILE = CONFIG$NORMALIZATION_FILE,
   
-  # Output directories
-  FIGURES_DIR = "../figures",
-  RESULTS_DIR = "../results",
+  # Output directories (using CONFIG paths)
+  FIGURES_DIR = CONFIG$FIGURES_DIR,
+  RESULTS_DIR = CONFIG$RESULTS_DIR,
   OUTPUT_LOG = "comprehensive_analysis_output.txt",
   
   # Analysis parameters

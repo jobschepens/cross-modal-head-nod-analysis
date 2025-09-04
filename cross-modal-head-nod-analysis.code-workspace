@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "cross-modal-head-nod-analysis",
+			"path": "."
+		},
+		{
+			"name": "vicomdata",
+			"path": "../../Users/Job/sciebo6/vicomdata"
+		}
+	],
+	"settings": {
+		"powershell.cwd": "cross-modal-head-nod-analysis"
+	}
+}

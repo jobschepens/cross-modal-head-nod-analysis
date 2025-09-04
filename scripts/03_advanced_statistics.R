@@ -49,6 +49,35 @@ cat("03_ADVANCED_STATISTICS: Cross-modal Head Nod Study\n")
 cat("Advanced Statistical Methods and Estimation Statistics\n")
 cat("===============================================================================\n")
 
+# ===============================================================================
+# CONFIGURATION
+# ===============================================================================
+
+# Load configuration if not already loaded
+if (!exists("CONFIG")) {
+  # Try different paths for flexibility
+  config_paths <- c("../config.R", "config.R")
+  config_loaded <- FALSE
+  
+  for (config_path in config_paths) {
+    if (file.exists(config_path)) {
+      source(config_path)
+      config_loaded <- TRUE
+      break
+    }
+  }
+  
+  if (!config_loaded) {
+    stop("config.R not found. Please ensure you're running from the repository root or scripts/ directory.")
+  }
+}
+
+# Initialize analysis environment (optional - only if function exists)
+if (exists("initialize_analysis") && is.function(initialize_analysis)) {
+  # Use non-interactive mode for Binder compatibility
+  initialize_analysis(interactive = FALSE, install_packages = FALSE)
+}
+
 # Set up for reproducible results
 set.seed(42)
 
@@ -74,14 +103,13 @@ if (!exists("CONFIG")) {
 # Initialize analysis environment
 initialize_analysis()
 
-# Override CONFIG with script-specific settings
-original_CONFIG <- CONFIG
-CONFIG <- list(
-  OUTPUT_DIR = "data",
-  NORMALIZATION_FILE = "data/norm.xlsx",
-  FIGURES_DIR = "figures",
-  GARDNER_ALTMAN_DIR = "figures",
-  RESULTS_DIR = original_CONFIG$RESULTS_DIR,
+# Extend CONFIG with script-specific settings (DO NOT overwrite!)
+ADVANCED_CONFIG <- list(
+  OUTPUT_DIR = CONFIG$DATA_DIR,  # Use CONFIG paths
+  NORMALIZATION_FILE = CONFIG$NORMALIZATION_FILE,
+  FIGURES_DIR = CONFIG$FIGURES_DIR,
+  GARDNER_ALTMAN_DIR = CONFIG$FIGURES_DIR,
+  RESULTS_DIR = CONFIG$RESULTS_DIR,
   OUTPUT_LOG = "advanced_statistical_analysis_output.txt",
 
   # Variables for analysis
@@ -94,18 +122,18 @@ CONFIG <- list(
 )
 
 # Create output directories
-for (dir in c(CONFIG$FIGURES_DIR, file.path(CONFIG$FIGURES_DIR, "gardner_altman"))) {
+for (dir in c(ADVANCED_CONFIG$FIGURES_DIR, file.path(ADVANCED_CONFIG$FIGURES_DIR, "gardner_altman"))) {
   if (!dir.exists(dir)) {
     dir.create(dir, recursive = TRUE)
   }
 }
 
 # Start logging
-sink(file.path(CONFIG$RESULTS_DIR, CONFIG$OUTPUT_LOG), split = TRUE)
+sink(file.path(ADVANCED_CONFIG$RESULTS_DIR, ADVANCED_CONFIG$OUTPUT_LOG), split = TRUE)
 
 cat("Configuration loaded:\n")
-cat("- Kinematic variables:", paste(CONFIG$KINEMATIC_VARS, collapse = ", "), "\n")
-cat("- Target functions:", paste(CONFIG$TARGET_FUNCTIONS, collapse = ", "), "\n")
+cat("- Kinematic variables:", paste(ADVANCED_CONFIG$KINEMATIC_VARS, collapse = ", "), "\n")
+cat("- Target functions:", paste(ADVANCED_CONFIG$TARGET_FUNCTIONS, collapse = ", "), "\n")
 cat("- Output directories created\n\n")
 
 # ===============================================================================

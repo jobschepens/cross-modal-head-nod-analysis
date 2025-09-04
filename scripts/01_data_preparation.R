@@ -28,11 +28,28 @@ cat("===========================================================================
 
 # Load configuration if not already loaded
 if (!exists("CONFIG")) {
-  source("../config.R")
+  # Try different paths for flexibility
+  config_paths <- c("../config.R", "config.R")
+  config_loaded <- FALSE
+  
+  for (config_path in config_paths) {
+    if (file.exists(config_path)) {
+      source(config_path)
+      config_loaded <- TRUE
+      break
+    }
+  }
+  
+  if (!config_loaded) {
+    stop("config.R not found. Please ensure you're running from the repository root or scripts/ directory.")
+  }
 }
 
-# Initialize analysis environment
-initialize_analysis()
+# Initialize analysis environment (optional - only if function exists)
+if (exists("initialize_analysis") && is.function(initialize_analysis)) {
+  # Use non-interactive mode for Binder compatibility
+  initialize_analysis(interactive = FALSE, install_packages = FALSE)
+}
 
 # Configuration constants
 DATA_CONFIG <- list(

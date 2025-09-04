@@ -68,7 +68,7 @@ turn_all:
 ===============================================================================
 NORMALIZATION SETUP (using norm.xlsx)
 ===============================================================================
-Reading normalization data from Excel file: c:/GitHub/cross-modal-head-nod-analysis/data/norm.xlsx 
+Reading normalization data from Excel file: C:/GitHub/cross-modal-head-nod-analysis/data/norm.xlsx 
 Successfully loaded Excel sheets:
 - Sheet 1 (counts): 15 rows, 9 columns
 - Sheet 2 (stats): 28 rows, 9 columns
@@ -244,7 +244,7 @@ COMPREHENSIVE ANALYSIS COMPLETE - SUMMARY
   - Task 5: Basic statistical significance testing
 
 ✓ FIGURES EXPORTED (PDF ONLY)
-  - Location: c:/GitHub/cross-modal-head-nod-analysis/figures
+  - Location: C:/GitHub/cross-modal-head-nod-analysis/figures
   - Total plots saved: 7
 
 ✓ CROSS-MODAL COMPARISON FRAMEWORK

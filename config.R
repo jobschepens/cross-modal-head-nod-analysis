@@ -150,7 +150,21 @@ check_data_files <- function() {
 
 # Function to set working directory to repository root
 set_repo_working_directory <- function() {
-  setwd(CONFIG$REPO_ROOT)
+  # Ensure we have a valid REPO_ROOT
+  if (exists("REPO_ROOT") && is.character(REPO_ROOT) && length(REPO_ROOT) > 0) {
+    setwd(REPO_ROOT)
+  } else if (exists("CONFIG") && !is.null(CONFIG$REPO_ROOT) && is.character(CONFIG$REPO_ROOT) && length(CONFIG$REPO_ROOT) > 0) {
+    setwd(CONFIG$REPO_ROOT)
+  } else {
+    # Fallback: try to determine repo root
+    current_dir <- getwd()
+    if (dir.exists("data") && dir.exists("scripts")) {
+      # Already in repo root
+      cat("Already in repository root:", current_dir, "\n")
+    } else {
+      cat("Warning: Could not determine repository root. Staying in current directory:", current_dir, "\n")
+    }
+  }
   if (!is.null(CONFIG$VERBOSE) && CONFIG$VERBOSE) {
     cat("Working directory set to:", getwd(), "\n")
   }
@@ -161,7 +175,7 @@ set_repo_working_directory <- function() {
 # ===============================================================================
 
 # Function to install required packages if missing
-install_required_packages <- function() {
+install_required_packages <- function(interactive = TRUE) {
   required_packages <- c(
     "tidyverse", "ggplot2", "reshape2", "rstatix", "lme4", "readxl",
     "viridis", "gridExtra", "car", "emmeans", "effectsize", "boot",
@@ -177,13 +191,19 @@ install_required_packages <- function() {
   }
   
   if (length(missing_packages) > 0) {
-    cat("Installing missing packages:", paste(missing_packages, collapse = ", "), "\n")
-    install.packages(missing_packages, dependencies = TRUE)
+    if (interactive) {
+      cat("Installing missing packages:", paste(missing_packages, collapse = ", "), "\n")
+      install.packages(missing_packages, dependencies = TRUE, repos = "https://cran.rstudio.com/")
+    } else {
+      cat("Missing packages detected (skipping installation in non-interactive mode):", 
+          paste(missing_packages, collapse = ", "), "\n")
+      cat("Please install these packages manually if needed.\n")
+    }
   }
   
-  # Load core packages
+  # Load core packages (suppress warnings in case some are missing)
   suppressPackageStartupMessages({
-    library(tidyverse)
+    tryCatch(library(tidyverse), error = function(e) cat("Note: tidyverse not available\n"))
     library(ggplot2)
     library(readxl)
   })
@@ -198,13 +218,15 @@ install_required_packages <- function() {
 # ===============================================================================
 
 # Function to initialize the analysis environment
-initialize_analysis <- function() {
+initialize_analysis <- function(interactive = TRUE, install_packages = TRUE) {
   cat("===============================================================================\n")
   cat("CROSS-MODAL HEAD NOD ANALYSIS - INITIALIZATION\n")
   cat("===============================================================================\n")
   
-  # Install packages
-  install_required_packages()
+  # Install packages (with option to skip)
+  if (install_packages) {
+    install_required_packages(interactive = interactive)
+  }
   
   # Set working directory
   set_repo_working_directory()

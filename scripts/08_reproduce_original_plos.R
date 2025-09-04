@@ -5,10 +5,10 @@
 
 # Load configuration if not already loaded
 if (!exists("CONFIG")) {
-  # Try different paths for different environments
-  config_paths <- c("../config.R", "config.R", "~/config.R")
+  # Try different paths for flexibility
+  config_paths <- c("../config.R", "config.R")
   config_loaded <- FALSE
-
+  
   for (config_path in config_paths) {
     if (file.exists(config_path)) {
       source(config_path)
@@ -16,14 +16,17 @@ if (!exists("CONFIG")) {
       break
     }
   }
-
+  
   if (!config_loaded) {
-    stop("Could not find config.R file. Please ensure it exists in the repository root.")
+    stop("config.R not found. Please ensure you're running from the repository root or scripts/ directory.")
   }
 }
 
-# Initialize analysis environment
-initialize_analysis()
+# Initialize analysis environment (optional - only if function exists)
+if (exists("initialize_analysis") && is.function(initialize_analysis)) {
+  # Use non-interactive mode for Binder compatibility
+  initialize_analysis(interactive = FALSE, install_packages = FALSE)
+}
 
 # Load libraries
 required_packages <- c("broom", "scales", "xtable", "tidyverse", "lme4", "readr", "performance")
@@ -43,22 +46,6 @@ for (pkg in optional_packages) {
   if (!require(pkg, character.only = TRUE, quietly = TRUE)) {
     cat("Optional package not available:", pkg, "(continuing without it)\n")
   }
-}
-
-# Load configuration if not already loaded
-if (!exists("CONFIG")) {
-  if (file.exists("../config.R")) {
-    source("../config.R")
-  } else if (file.exists("config.R")) {
-    source("config.R")
-  } else {
-    stop("config.R not found. Please ensure you're running from the correct directory.")
-  }
-}
-
-# Initialize analysis environment
-if (exists("initialize_analysis") && is.function(initialize_analysis)) {
-  initialize_analysis()
 }
 
 # REPRODUCTION ATTEMPT 1: Using final cleaned approach

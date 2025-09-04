@@ -44,18 +44,27 @@ dir.create("gardner_altman_refined", showWarnings = FALSE)
 
 # Load configuration if not already loaded
 if (!exists("CONFIG")) {
-  if (file.exists("../config.R")) {
-    source("../config.R")
-  } else if (file.exists("config.R")) {
-    source("config.R")
-  } else {
-    stop("config.R not found. Please ensure you're running from the correct directory.")
+  # Try different paths for flexibility
+  config_paths <- c("../config.R", "config.R")
+  config_loaded <- FALSE
+  
+  for (config_path in config_paths) {
+    if (file.exists(config_path)) {
+      source(config_path)
+      config_loaded <- TRUE
+      break
+    }
+  }
+  
+  if (!config_loaded) {
+    stop("config.R not found. Please ensure you're running from the repository root or scripts/ directory.")
   }
 }
 
-# Initialize analysis environment
+# Initialize analysis environment (optional - only if function exists)
 if (exists("initialize_analysis") && is.function(initialize_analysis)) {
-  initialize_analysis()
+  # Use non-interactive mode for Binder compatibility
+  initialize_analysis(interactive = FALSE, install_packages = FALSE)
 }
 
 # Refined analysis configuration (extends base CONFIG)
@@ -75,14 +84,6 @@ REFINED_CONFIG <- list(
   PLOT_WIDTH = 10,
   PLOT_HEIGHT = 6
 )
-
-# Load configuration if not already loaded
-if (!exists("CONFIG")) {
-  source("../config.R")
-}
-
-# Initialize analysis environment
-initialize_analysis()
 
 # Start logging
 output_log_path <- file.path(CONFIG$RESULTS_DIR, "refined_analyses_output.txt")
